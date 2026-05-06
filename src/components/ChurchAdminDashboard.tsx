@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
 
-export default function ChurchAdminDashboard({ profile }: { profile: any }) {
+export default function ChurchAdminDashboard(_props: { profile: any }) {
   const [page, setPage] = useState('dashboard');
   const [members, setMembers] = useState<any[]>([]);
   const [matches, setMatches] = useState<any[]>([]);
