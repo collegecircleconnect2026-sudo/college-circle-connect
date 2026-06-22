@@ -181,7 +181,7 @@ export default function MentorDashboard({ profile }: { profile: any }) {
         {page === 'profile' && (
           <>
             <div style={s.ph}><div style={s.pt}>My profile</div><div style={s.ps}>This is what students see when they view your mentor card</div></div>
-            {mentorProfile && <ProfileEditor mentorProfile={mentorProfile} onSave={fetchMentorProfile} C={C} s={s} />}
+            {mentorProfile && <ProfileEditor mentorProfile={mentorProfile} onSave={fetchMentorProfile} C={C} />}
             {!mentorProfile && <div style={{fontSize:13,color:C.muted,marginTop:20}}>Loading your profile...</div>}
           </>
         )}
@@ -190,7 +190,7 @@ export default function MentorDashboard({ profile }: { profile: any }) {
   )
 }
 
-function ProfileEditor({ mentorProfile, onSave, C, s }: any) {
+function ProfileEditor({ mentorProfile, onSave, C }: any) {
   const [field, setField] = useState(mentorProfile.field || '')
   const [company, setCompany] = useState(mentorProfile.company || '')
   const [story, setStory] = useState(mentorProfile.personal_story || '')
