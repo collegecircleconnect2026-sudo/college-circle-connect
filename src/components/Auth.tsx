@@ -44,7 +44,7 @@ export default function Auth() {
 
   return (
     <div style={{
-      minHeight:'100vh',
+      minHeight:'100dvh',
       display:'flex',
       flexDirection: isMobile ? 'column' : 'row',
       background:'#1E0A5C',
