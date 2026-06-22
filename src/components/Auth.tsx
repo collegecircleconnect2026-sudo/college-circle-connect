@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { supabase } from '../supabase'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 export default function Auth() {
+  const isMobile = useIsMobile()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [fullName, setFullName] = useState('')
@@ -44,6 +46,7 @@ export default function Auth() {
     <div style={{
       minHeight:'100vh',
       display:'flex',
+      flexDirection: isMobile ? 'column' : 'row',
       background:'#1E0A5C',
       fontFamily:"'Georgia', serif",
     }}>
@@ -53,8 +56,9 @@ export default function Auth() {
         flexDirection:'column',
         alignItems:'center',
         justifyContent:'center',
-        padding:'40px',
-        borderRight:'0.5px solid rgba(212,160,23,0.2)',
+        padding: isMobile ? '32px 24px' : '40px',
+        borderRight: isMobile ? 'none' : '0.5px solid rgba(212,160,23,0.2)',
+        borderBottom: isMobile ? '0.5px solid rgba(212,160,23,0.2)' : 'none',
       }}>
         <div style={{maxWidth:400,width:'100%'}}>
           <div style={{
@@ -91,7 +95,7 @@ export default function Auth() {
         display:'flex',
         alignItems:'center',
         justifyContent:'center',
-        padding:'40px',
+        padding: isMobile ? '32px 24px' : '40px',
       }}>
         <div style={{maxWidth:380,width:'100%'}}>
           <div style={{fontSize:20,fontWeight:400,color:'white',marginBottom:4,fontFamily:'sans-serif'}}>

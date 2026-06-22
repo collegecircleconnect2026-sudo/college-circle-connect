@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 export default function ChurchAdminDashboard(_props: { profile: any }) {
+  const isMobile = useIsMobile();
+  const [menuOpen, setMenuOpen] = useState(false);
   const [page, setPage] = useState('dashboard');
   const [members, setMembers] = useState<any[]>([]);
   const [matches, setMatches] = useState<any[]>([]);
@@ -83,16 +86,34 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
   const s: any = {
     app: {
       display: 'flex',
-      height: '100vh',
+      flexDirection: isMobile ? 'column' : 'row',
+      height: isMobile ? 'auto' : '100vh',
+      minHeight: '100vh',
       fontFamily: 'sans-serif',
       background: C.bg,
     },
     sidebar: {
-      width: 210,
+      width: isMobile ? '100%' : 210,
       background: C.sidebar,
-      borderRight: `0.5px solid ${C.border}`,
+      borderRight: isMobile ? 'none' : `0.5px solid ${C.border}`,
+      borderBottom: isMobile ? `0.5px solid ${C.border}` : 'none',
       display: 'flex',
       flexDirection: 'column',
+    },
+    topBar: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: '12px 18px',
+    },
+    menuBtn: {
+      background: 'transparent',
+      border: `0.5px solid ${C.border}`,
+      borderRadius: 8,
+      color: C.gold,
+      fontSize: 13,
+      padding: '6px 10px',
+      cursor: 'pointer',
     },
     logo: { padding: '16px 18px', borderBottom: `0.5px solid ${C.border}` },
     logoTitle: { fontSize: 13, fontWeight: 500, color: C.gold },
@@ -142,7 +163,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
     ps: { fontSize: 12, color: C.muted, marginTop: 3 },
     statGrid: {
       display: 'grid',
-      gridTemplateColumns: 'repeat(4,1fr)',
+      gridTemplateColumns: isMobile ? '1fr' : 'repeat(4,1fr)',
       gap: 10,
       marginBottom: 18,
     },
@@ -244,51 +265,85 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
   return (
     <div style={s.app}>
       <div style={s.sidebar}>
-        <div style={s.logo}>
-          <div style={s.logoTitle}>College Circle Connect</div>
-          <div style={s.logoSub}>Hartford Memorial Baptist Church</div>
-        </div>
-        <div style={{ padding: '8px 18px 0' }}>
-          <span style={s.pill}>Church admin</span>
-        </div>
-        <div style={s.nav}>
-          <div style={s.navSection}>Overview</div>
-          <div
-            style={s.navItem(page === 'dashboard')}
-            onClick={() => setPage('dashboard')}
-          >
-            Dashboard
+        {isMobile ? (
+          <div style={s.topBar}>
+            <div>
+              <div style={s.logoTitle}>College Circle Connect</div>
+              <div style={s.logoSub}>Hartford Memorial Baptist Church</div>
+            </div>
+            <button style={s.menuBtn} onClick={() => setMenuOpen(!menuOpen)}>
+              {menuOpen ? 'Close' : 'Menu'}
+            </button>
           </div>
-          <div
-            style={s.navItem(page === 'members')}
-            onClick={() => setPage('members')}
-          >
-            Members
+        ) : (
+          <div style={s.logo}>
+            <div style={s.logoTitle}>College Circle Connect</div>
+            <div style={s.logoSub}>Hartford Memorial Baptist Church</div>
           </div>
-          <div
-            style={s.navItem(page === 'matches')}
-            onClick={() => setPage('matches')}
-          >
-            All matches
-          </div>
-          <div
-            style={s.navItem(page === 'stories')}
-            onClick={() => setPage('stories')}
-          >
-            Success stories
-          </div>
-          <div
-            style={s.navItem(page === 'nudges')}
-            onClick={() => setPage('nudges')}
-          >
-            Check-in nudges
-          </div>
-        </div>
-        <div style={s.signOut}>
-          <button style={s.signOutBtn} onClick={() => supabase.auth.signOut()}>
-            Sign out
-          </button>
-        </div>
+        )}
+        {(!isMobile || menuOpen) && (
+          <>
+            <div style={{ padding: '8px 18px 0' }}>
+              <span style={s.pill}>Church admin</span>
+            </div>
+            <div style={s.nav}>
+              <div style={s.navSection}>Overview</div>
+              <div
+                style={s.navItem(page === 'dashboard')}
+                onClick={() => {
+                  setPage('dashboard');
+                  setMenuOpen(false);
+                }}
+              >
+                Dashboard
+              </div>
+              <div
+                style={s.navItem(page === 'members')}
+                onClick={() => {
+                  setPage('members');
+                  setMenuOpen(false);
+                }}
+              >
+                Members
+              </div>
+              <div
+                style={s.navItem(page === 'matches')}
+                onClick={() => {
+                  setPage('matches');
+                  setMenuOpen(false);
+                }}
+              >
+                All matches
+              </div>
+              <div
+                style={s.navItem(page === 'stories')}
+                onClick={() => {
+                  setPage('stories');
+                  setMenuOpen(false);
+                }}
+              >
+                Success stories
+              </div>
+              <div
+                style={s.navItem(page === 'nudges')}
+                onClick={() => {
+                  setPage('nudges');
+                  setMenuOpen(false);
+                }}
+              >
+                Check-in nudges
+              </div>
+            </div>
+            <div style={s.signOut}>
+              <button
+                style={s.signOutBtn}
+                onClick={() => supabase.auth.signOut()}
+              >
+                Sign out
+              </button>
+            </div>
+          </>
+        )}
       </div>
 
       <div style={s.main}>
@@ -594,7 +649,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
+                  gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
                   gap: 10,
                 }}
               >
