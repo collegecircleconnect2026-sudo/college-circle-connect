@@ -1,7 +1,10 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../supabase'
+import { useIsMobile } from '../hooks/useIsMobile'
 
 export default function MentorDashboard({ profile }: { profile: any }) {
+  const isMobile = useIsMobile()
+  const [menuOpen, setMenuOpen] = useState(false)
   const [page, setPage] = useState('requests')
   const [mentorProfile, setMentorProfile] = useState<any>(null)
   const [requests, setRequests] = useState<any[]>([])
@@ -52,8 +55,10 @@ export default function MentorDashboard({ profile }: { profile: any }) {
   }
 
   const s: any = {
-    app: {display:'flex',height:'100vh',fontFamily:'sans-serif',background:C.bg},
-    sidebar: {width:210,background:C.sidebar,borderRight:`0.5px solid ${C.border}`,display:'flex',flexDirection:'column'},
+    app: {display:'flex',flexDirection:isMobile?'column':'row',height:isMobile?'auto':'100vh',minHeight:'100vh',fontFamily:'sans-serif',background:C.bg},
+    sidebar: {width:isMobile?'100%':210,background:C.sidebar,borderRight:isMobile?'none':`0.5px solid ${C.border}`,borderBottom:isMobile?`0.5px solid ${C.border}`:'none',display:'flex',flexDirection:'column'},
+    topBar: {display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px 18px'},
+    menuBtn: {background:'transparent',border:`0.5px solid ${C.border}`,borderRadius:8,color:C.gold,fontSize:13,padding:'6px 10px',cursor:'pointer'},
     logo: {padding:'16px 18px',borderBottom:`0.5px solid ${C.border}`},
     logoTitle: {fontSize:13,fontWeight:500,color:C.gold},
     logoSub: {fontSize:11,color:C.muted,marginTop:2},
@@ -71,7 +76,7 @@ export default function MentorDashboard({ profile }: { profile: any }) {
     av: (bg:string,fg:string,size?:number) => ({width:size||36,height:size||36,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:500,background:bg,color:fg,flexShrink:0}),
     btn: (primary:boolean) => ({padding:'6px 13px',background:primary?C.gold:'transparent',color:primary?C.bg:C.muted,border:primary?'none':`0.5px solid ${C.border}`,borderRadius:8,fontSize:12,cursor:'pointer',fontWeight:primary?700:400}),
     card: {background:C.card,border:`0.5px solid ${C.border}`,borderRadius:12,padding:16,marginBottom:10},
-    impactGrid: {display:'grid',gridTemplateColumns:'repeat(3,1fr)',gap:12,marginBottom:16},
+    impactGrid: {display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:12,marginBottom:16},
     impactItem: {background:'rgba(212,160,23,0.08)',borderRadius:8,padding:14,textAlign:'center' as any},
     impactBig: {fontSize:30,fontWeight:500,color:C.gold},
     impactLabel: {fontSize:12,color:C.muted,marginTop:2},
@@ -82,22 +87,36 @@ export default function MentorDashboard({ profile }: { profile: any }) {
   return (
     <div style={s.app}>
       <div style={s.sidebar}>
-        <div style={s.logo}>
-          <div style={s.logoTitle}>College Circle Connect</div>
-          <div style={s.logoSub}>Hartford Memorial Baptist Church</div>
-        </div>
-        <div style={{padding:'8px 18px 0'}}><span style={s.pill}>Mentor portal</span></div>
-        <div style={s.nav}>
-          <div style={s.navSection}>Mentoring</div>
-          <div style={s.navItem(page==='requests')} onClick={()=>setPage('requests')}>Incoming requests</div>
-          <div style={s.navItem(page==='impact')} onClick={()=>setPage('impact')}>My impact</div>
-          <div style={s.navItem(page==='cohorts')} onClick={()=>setPage('cohorts')}>My cohorts</div>
-          <div style={s.navSection}>Account</div>
-          <div style={s.navItem(page==='profile')} onClick={()=>setPage('profile')}>My profile</div>
-        </div>
-        <div style={s.signOut}>
-          <button style={s.signOutBtn} onClick={() => supabase.auth.signOut()}>Sign out</button>
-        </div>
+        {isMobile ? (
+          <div style={s.topBar}>
+            <div>
+              <div style={s.logoTitle}>College Circle Connect</div>
+              <div style={s.logoSub}>Hartford Memorial Baptist Church</div>
+            </div>
+            <button style={s.menuBtn} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? 'Close' : 'Menu'}</button>
+          </div>
+        ) : (
+          <div style={s.logo}>
+            <div style={s.logoTitle}>College Circle Connect</div>
+            <div style={s.logoSub}>Hartford Memorial Baptist Church</div>
+          </div>
+        )}
+        {(!isMobile || menuOpen) && (
+          <>
+            <div style={{padding:'8px 18px 0'}}><span style={s.pill}>Mentor portal</span></div>
+            <div style={s.nav}>
+              <div style={s.navSection}>Mentoring</div>
+              <div style={s.navItem(page==='requests')} onClick={()=>{setPage('requests');setMenuOpen(false)}}>Incoming requests</div>
+              <div style={s.navItem(page==='impact')} onClick={()=>{setPage('impact');setMenuOpen(false)}}>My impact</div>
+              <div style={s.navItem(page==='cohorts')} onClick={()=>{setPage('cohorts');setMenuOpen(false)}}>My cohorts</div>
+              <div style={s.navSection}>Account</div>
+              <div style={s.navItem(page==='profile')} onClick={()=>{setPage('profile');setMenuOpen(false)}}>My profile</div>
+            </div>
+            <div style={s.signOut}>
+              <button style={s.signOutBtn} onClick={() => supabase.auth.signOut()}>Sign out</button>
+            </div>
+          </>
+        )}
       </div>
 
       <div style={s.main}>
