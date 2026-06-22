@@ -603,6 +603,93 @@ export default function StudentDashboard({ profile }: { profile: any }) {
             )}
             {matches.map((m) => {
               const [bg, fg] = getColor(m.mentors?.field);
+
+              if (m.status === 'active') {
+                const phone = m.mentors?.phone || m.mentors?.users?.phone;
+                return (
+                  <div key={m.id} style={s.cohortCard}>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 12,
+                        marginBottom: 14,
+                      }}
+                    >
+                      <div style={{ ...s.av(bg, fg, 42), marginBottom: 0 }}>
+                        {m.mentors?.users?.avatar_initials || '??'}
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <div
+                          style={{ fontSize: 14, fontWeight: 500, color: C.white }}
+                        >
+                          {m.mentors?.users?.full_name}
+                        </div>
+                        <div style={{ fontSize: 12, color: C.muted, marginTop: 2 }}>
+                          {m.mentors?.field} · {m.mentors?.company}
+                        </div>
+                      </div>
+                      <span
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 500,
+                          padding: '3px 8px',
+                          borderRadius: 20,
+                          background: 'rgba(93,202,165,0.2)',
+                          color: '#5DCAA5',
+                        }}
+                      >
+                        Match confirmed
+                      </span>
+                    </div>
+
+                    <div
+                      style={{
+                        background: 'rgba(212,160,23,0.08)',
+                        borderRadius: 8,
+                        padding: 12,
+                        marginBottom: 14,
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: 11,
+                          fontWeight: 500,
+                          color: C.hint,
+                          textTransform: 'uppercase',
+                          letterSpacing: 0.5,
+                          marginBottom: 6,
+                        }}
+                      >
+                        Contact
+                      </div>
+                      <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.6 }}>
+                        {m.mentors?.users?.email}
+                        {phone && <><br />{phone}</>}
+                      </div>
+                    </div>
+
+                    <div
+                      style={{
+                        fontSize: 11,
+                        fontWeight: 500,
+                        color: C.hint,
+                        textTransform: 'uppercase',
+                        letterSpacing: 0.5,
+                        marginBottom: 8,
+                      }}
+                    >
+                      Next steps
+                    </div>
+                    <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.7 }}>
+                      <div>1. Send your mentor an introductory message within 3 days.</div>
+                      <div>2. Arrange your first meeting in a public place such as the church or a coffee shop.</div>
+                      <div>3. Come prepared with 2-3 questions about their career path.</div>
+                    </div>
+                  </div>
+                );
+              }
+
               return (
                 <div key={m.id} style={s.reqRow}>
                   <div style={{ ...s.av(bg, fg, 36), marginBottom: 0 }}>
@@ -625,17 +712,10 @@ export default function StudentDashboard({ profile }: { profile: any }) {
                       padding: '3px 8px',
                       borderRadius: 20,
                       background:
-                        m.status === 'active'
-                          ? 'rgba(93,202,165,0.2)'
-                          : m.status === 'declined'
+                        m.status === 'declined'
                           ? 'rgba(255,100,100,0.2)'
                           : 'rgba(212,160,23,0.2)',
-                      color:
-                        m.status === 'active'
-                          ? '#5DCAA5'
-                          : m.status === 'declined'
-                          ? '#ff6b6b'
-                          : '#F0C040',
+                      color: m.status === 'declined' ? '#ff6b6b' : '#F0C040',
                     }}
                   >
                     {m.status}
