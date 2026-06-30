@@ -301,8 +301,8 @@ export default function StudentDashboard({ profile }: { profile: any }) {
             </button>
           </div>
         </div>
-        <div style={s.main}>
-          <div style={s.backBtn} onClick={() => setSelectedMentor(null)}>
+        <div style={s.main} className="cc-fade">
+          <div className="cc-chip" style={s.backBtn} onClick={() => setSelectedMentor(null)}>
             ← Back to mentors
           </div>
           <div style={s.profileBox}>
@@ -417,11 +417,12 @@ export default function StudentDashboard({ profile }: { profile: any }) {
         {(!isMobile || menuOpen) && (
           <>
             <div style={{ padding: '8px 18px 0' }}>
-              <span style={s.pill}>Student portal</span>
+              <span className="cc-chip" style={s.pill}>Student portal</span>
             </div>
             <div style={s.nav}>
               <div style={s.navSection}>Discover</div>
               <div
+                className="cc-nav"
                 style={s.navItem(page === 'browse')}
                 onClick={() => {
                   setPage('browse');
@@ -431,6 +432,7 @@ export default function StudentDashboard({ profile }: { profile: any }) {
                 Browse mentors
               </div>
               <div
+                className="cc-nav"
                 style={s.navItem(page === 'cohorts')}
                 onClick={() => {
                   setPage('cohorts');
@@ -441,6 +443,7 @@ export default function StudentDashboard({ profile }: { profile: any }) {
               </div>
               <div style={s.navSection}>Me</div>
               <div
+                className="cc-nav"
                 style={s.navItem(page === 'my-requests')}
                 onClick={() => {
                   setPage('my-requests');
@@ -461,7 +464,7 @@ export default function StudentDashboard({ profile }: { profile: any }) {
           </>
         )}
       </div>
-      <div style={s.main}>
+      <div style={s.main} className="cc-fade" key={page}>
         {page === 'browse' && (
           <>
             <div style={s.ph}>
@@ -480,6 +483,7 @@ export default function StudentDashboard({ profile }: { profile: any }) {
               ].map((f) => (
                 <div
                   key={f}
+                  className="cc-chip"
                   style={s.chip(filter === f)}
                   onClick={() => setFilter(f)}
                 >
@@ -493,6 +497,7 @@ export default function StudentDashboard({ profile }: { profile: any }) {
                 return (
                   <div
                     key={m.id}
+                    className="cc-card"
                     style={s.card}
                     onClick={() => setSelectedMentor(m)}
                   >
@@ -554,7 +559,7 @@ export default function StudentDashboard({ profile }: { profile: any }) {
               const spotsLeft = c.max_spots - memberCount;
               const joined = hasJoinedCohort(c.id);
               return (
-                <div key={c.id} style={s.cohortCard}>
+                <div key={c.id} className="cc-card" style={s.cohortCard}>
                   <div
                     style={{
                       display: 'flex',
@@ -740,7 +745,7 @@ export default function StudentDashboard({ profile }: { profile: any }) {
               }
 
               return (
-                <div key={m.id} style={s.reqRow}>
+                <div key={m.id} className="cc-row" style={s.reqRow}>
                   <div style={{ ...s.av(bg, fg, 36), marginBottom: 0 }}>
                     {m.mentors?.users?.avatar_initials || '??'}
                   </div>
@@ -785,7 +790,7 @@ export default function StudentDashboard({ profile }: { profile: any }) {
                   Cohorts joined
                 </div>
                 {joinedCohorts.map((j) => (
-                  <div key={j.id} style={s.reqRow}>
+                  <div key={j.id} className="cc-row" style={s.reqRow}>
                     <div style={{ flex: 1 }}>
                       <div
                         style={{

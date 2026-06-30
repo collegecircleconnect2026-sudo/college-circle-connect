@@ -103,14 +103,14 @@ export default function MentorDashboard({ profile }: { profile: any }) {
         )}
         {(!isMobile || menuOpen) && (
           <>
-            <div style={{padding:'8px 18px 0'}}><span style={s.pill}>Mentor portal</span></div>
+            <div style={{padding:'8px 18px 0'}}><span className="cc-chip" style={s.pill}>Mentor portal</span></div>
             <div style={s.nav}>
               <div style={s.navSection}>Mentoring</div>
-              <div style={s.navItem(page==='requests')} onClick={()=>{setPage('requests');setMenuOpen(false)}}>Incoming requests</div>
-              <div style={s.navItem(page==='impact')} onClick={()=>{setPage('impact');setMenuOpen(false)}}>My impact</div>
-              <div style={s.navItem(page==='cohorts')} onClick={()=>{setPage('cohorts');setMenuOpen(false)}}>My cohorts</div>
+              <div className="cc-nav" style={s.navItem(page==='requests')} onClick={()=>{setPage('requests');setMenuOpen(false)}}>Incoming requests</div>
+              <div className="cc-nav" style={s.navItem(page==='impact')} onClick={()=>{setPage('impact');setMenuOpen(false)}}>My impact</div>
+              <div className="cc-nav" style={s.navItem(page==='cohorts')} onClick={()=>{setPage('cohorts');setMenuOpen(false)}}>My cohorts</div>
               <div style={s.navSection}>Account</div>
-              <div style={s.navItem(page==='profile')} onClick={()=>{setPage('profile');setMenuOpen(false)}}>My profile</div>
+              <div className="cc-nav" style={s.navItem(page==='profile')} onClick={()=>{setPage('profile');setMenuOpen(false)}}>My profile</div>
             </div>
             <div style={s.signOut}>
               <button style={s.signOutBtn} onClick={() => supabase.auth.signOut()}>Sign out</button>
@@ -119,13 +119,13 @@ export default function MentorDashboard({ profile }: { profile: any }) {
         )}
       </div>
 
-      <div style={s.main}>
+      <div style={s.main} className="cc-fade" key={page}>
         {page === 'requests' && (
           <>
             <div style={s.ph}><div style={s.pt}>Incoming requests</div><div style={s.ps}>Students who want to connect with you</div></div>
             {requests.length === 0 && <div style={{fontSize:13,color:C.muted,marginTop:20}}>No pending requests right now.</div>}
             {requests.map(r => (
-              <div key={r.id} style={s.reqRow}>
+              <div key={r.id} className="cc-row" style={s.reqRow}>
                 <div style={{...s.av('rgba(212,160,23,0.2)',C.goldLight),marginBottom:0}}>{r.users?.avatar_initials || '??'}</div>
                 <div style={{flex:1}}>
                   <div style={{fontSize:13,fontWeight:500,color:C.white}}>{r.users?.full_name}</div>
@@ -141,7 +141,7 @@ export default function MentorDashboard({ profile }: { profile: any }) {
               <>
                 <div style={{fontSize:13,fontWeight:500,color:C.white,margin:'18px 0 10px'}}>Active mentees</div>
                 {matches.map(m => (
-                  <div key={m.id} style={s.reqRow}>
+                  <div key={m.id} className="cc-row" style={s.reqRow}>
                     <div style={{...s.av('rgba(93,202,165,0.2)','#5DCAA5'),marginBottom:0}}>{m.users?.avatar_initials || '??'}</div>
                     <div style={{flex:1}}>
                       <div style={{fontSize:13,fontWeight:500,color:C.white}}>{m.users?.full_name}</div>
@@ -184,7 +184,7 @@ export default function MentorDashboard({ profile }: { profile: any }) {
             <div style={s.ph}><div style={s.pt}>My cohorts</div><div style={s.ps}>Small groups you are leading</div></div>
             {cohorts.length === 0 && <div style={{fontSize:13,color:C.muted,marginTop:20}}>No cohorts yet.</div>}
             {cohorts.map(c => (
-              <div key={c.id} style={s.card}>
+              <div key={c.id} className="cc-card" style={s.card}>
                 <div style={{display:'flex',justifyContent:'space-between',marginBottom:8}}>
                   <div style={{fontSize:14,fontWeight:500,color:C.white}}>{c.title}</div>
                   <span style={{fontSize:11,fontWeight:500,padding:'3px 8px',borderRadius:20,background:'rgba(93,202,165,0.2)',color:'#5DCAA5'}}>Active</span>
