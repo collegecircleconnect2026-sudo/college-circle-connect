@@ -18,23 +18,35 @@ export default function Auth() {
     if (isSignUp) {
       const { data, error } = await supabase.auth.signUp({ email, password })
       if (error) { setError(error.message); setLoading(false); return }
-     if (data.user) {
-  await supabase.from('users').insert({
-    id: data.user.id,
-    full_name: fullName,
-    email,
-    role,
-    avatar_initials: fullName.split(' ').map((n:string) => n[0]).join('').slice(0,2).toUpperCase()
-  })
-  if (role === 'mentor') {
-    await supabase.from('mentors').insert({
-      user_id: data.user.id,
-      field: 'Not set',
-      company: 'Not set',
-      is_available: true
-    })
-  }
-}
+      if (data.user) {
+        const { error: profileError } = await supabase.from('users').insert({
+          id: data.user.id,
+          full_name: fullName,
+          email,
+          role,
+          avatar_initials: fullName.split(' ').map((n:string) => n[0]).join('').slice(0,2).toUpperCase()
+        })
+        if (profileError) {
+          console.error('Failed to create user profile:', profileError)
+          setError(profileError.message)
+          setLoading(false)
+          return
+        }
+        if (role === 'mentor') {
+          const { error: mentorError } = await supabase.from('mentors').insert({
+            user_id: data.user.id,
+            field: 'Not set',
+            company: 'Not set',
+            is_available: true
+          })
+          if (mentorError) {
+            console.error('Failed to create mentor profile:', mentorError)
+            setError(mentorError.message)
+            setLoading(false)
+            return
+          }
+        }
+      }
     } else {
       const { error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) { setError(error.message); setLoading(false); return }
