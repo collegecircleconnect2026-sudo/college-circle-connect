@@ -19,6 +19,7 @@ export default function Auth() {
       const { data, error } = await supabase.auth.signUp({ email, password })
       if (error) { setError(error.message); setLoading(false); return }
       if (data.user) {
+        console.log('[signup] before users insert', { userId: data.user.id, role })
         const { error: profileError } = await supabase.from('users').insert({
           id: data.user.id,
           full_name: fullName,
@@ -26,19 +27,23 @@ export default function Auth() {
           role,
           avatar_initials: fullName.split(' ').map((n:string) => n[0]).join('').slice(0,2).toUpperCase()
         })
+        console.log('[signup] after users insert', { profileError })
         if (profileError) {
           console.error('Failed to create user profile:', profileError)
           setError(profileError.message)
           setLoading(false)
           return
         }
+        console.log('[signup] role check', { role, isMentor: role === 'mentor' })
         if (role === 'mentor') {
+          console.log('[signup] before mentors insert', { userId: data.user.id })
           const { error: mentorError } = await supabase.from('mentors').insert({
             user_id: data.user.id,
             field: 'Not set',
             company: 'Not set',
             is_available: true
           })
+          console.log('[signup] after mentors insert', { mentorError })
           if (mentorError) {
             console.error('Failed to create mentor profile:', mentorError)
             setError(mentorError.message)
