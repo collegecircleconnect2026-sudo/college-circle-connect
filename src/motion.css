@@ -1,0 +1,77 @@
+/* Subtle motion & polish.
+   These rules only add transitions, hover feedback, and a fade-in. They use
+   transform / box-shadow / filter (properties that are never set inline in the
+   components), so they layer on top of the existing purple-and-gold theme
+   without changing any layout or color. */
+
+/* Smooth 0.2s transition for all interactive surfaces. */
+button,
+.cc-card,
+.cc-row,
+.cc-nav,
+.cc-chip {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    filter 0.2s ease,
+    opacity 0.2s ease;
+}
+
+/* Clear, smooth hover state for buttons. */
+button:not(:disabled):hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+button:not(:disabled):active {
+  transform: translateY(0);
+}
+
+/* Gentle lift + soft shadow for cards and clickable rows. */
+.cc-card:hover,
+.cc-row:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+}
+
+/* Clear hover state for nav items. */
+.cc-nav:hover {
+  filter: brightness(1.3);
+  transform: translateX(2px);
+}
+
+/* Clear hover state for chips / pills / filters. */
+.cc-chip:hover {
+  filter: brightness(1.12);
+  transform: translateY(-1px);
+}
+
+/* Subtle fade-in when a page or tab's content first renders. */
+@keyframes ccFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.cc-fade {
+  animation: ccFadeIn 0.35s ease both;
+}
+
+/* Respect users who prefer reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  button,
+  .cc-card,
+  .cc-row,
+  .cc-nav,
+  .cc-chip,
+  .cc-fade {
+    transition: none;
+    animation: none;
+  }
+}

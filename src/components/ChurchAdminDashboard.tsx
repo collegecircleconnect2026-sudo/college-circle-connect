@@ -284,11 +284,12 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
         {(!isMobile || menuOpen) && (
           <>
             <div style={{ padding: '8px 18px 0' }}>
-              <span style={s.pill}>Church admin</span>
+              <span className="cc-chip" style={s.pill}>Church admin</span>
             </div>
             <div style={s.nav}>
               <div style={s.navSection}>Overview</div>
               <div
+                className="cc-nav"
                 style={s.navItem(page === 'dashboard')}
                 onClick={() => {
                   setPage('dashboard');
@@ -298,6 +299,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
                 Dashboard
               </div>
               <div
+                className="cc-nav"
                 style={s.navItem(page === 'members')}
                 onClick={() => {
                   setPage('members');
@@ -307,6 +309,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
                 Members
               </div>
               <div
+                className="cc-nav"
                 style={s.navItem(page === 'matches')}
                 onClick={() => {
                   setPage('matches');
@@ -316,6 +319,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
                 All matches
               </div>
               <div
+                className="cc-nav"
                 style={s.navItem(page === 'stories')}
                 onClick={() => {
                   setPage('stories');
@@ -325,6 +329,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
                 Success stories
               </div>
               <div
+                className="cc-nav"
                 style={s.navItem(page === 'nudges')}
                 onClick={() => {
                   setPage('nudges');
@@ -346,7 +351,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
         )}
       </div>
 
-      <div style={s.main}>
+      <div style={s.main} className="cc-fade" key={page}>
         {page === 'dashboard' && (
           <>
             <div style={s.ph}>
@@ -440,7 +445,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
                 'rgba(255,255,255,0.6)',
               ];
               return (
-                <div key={m.id} style={s.reqRow}>
+                <div key={m.id} className="cc-row" style={s.reqRow}>
                   <div style={s.av(bg, fg)}>{m.avatar_initials || '??'}</div>
                   <div style={{ flex: 1 }}>
                     <div
@@ -482,7 +487,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
               </div>
             )}
             {matches.map((m) => (
-              <div key={m.id} style={s.reqRow}>
+              <div key={m.id} className="cc-row" style={s.reqRow}>
                 <div style={{ flex: 1 }}>
                   <div
                     style={{ fontSize: 13, fontWeight: 500, color: C.white }}
@@ -587,7 +592,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
               </div>
             )}
             {stories.map((story) => (
-              <div key={story.id} style={s.card}>
+              <div key={story.id} className="cc-card" style={s.card}>
                 <div style={s.quote}>{story.quote}</div>
                 <div
                   style={{
@@ -687,7 +692,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
             {matches
               .filter((m) => m.status === 'active')
               .map((m) => (
-                <div key={m.id} style={s.nudgeCard}>
+                <div key={m.id} className="cc-card" style={s.nudgeCard}>
                   <div
                     style={{
                       display: 'flex',

@@ -43,7 +43,7 @@ export default function Auth() {
   }
 
   return (
-    <div style={{
+    <div className="cc-fade" style={{
       minHeight:'100dvh',
       display:'flex',
       flexDirection: isMobile ? 'column' : 'row',
@@ -160,7 +160,7 @@ export default function Auth() {
 
           <div style={{textAlign:'center',marginTop:20,fontSize:13,color:'rgba(255,255,255,0.4)',fontFamily:'sans-serif'}}>
             {isSignUp ? 'Already have an account? ' : "Don't have an account? "}
-            <span style={{color:'#D4A017',cursor:'pointer',fontWeight:500}} onClick={()=>setIsSignUp(!isSignUp)}>
+            <span className="cc-chip" style={{display:'inline-block',color:'#D4A017',cursor:'pointer',fontWeight:500}} onClick={()=>setIsSignUp(!isSignUp)}>
               {isSignUp ? 'Sign in' : 'Sign up'}
             </span>
           </div>
