@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../supabase';
 import { useIsMobile } from '../hooks/useIsMobile';
+import type { Match } from '../types';
 
 export default function StudentDashboard({ profile }: { profile: any }) {
   const isMobile = useIsMobile();
@@ -8,10 +9,17 @@ export default function StudentDashboard({ profile }: { profile: any }) {
   const [page, setPage] = useState('browse');
   const [mentors, setMentors] = useState<any[]>([]);
   const [cohorts, setCohorts] = useState<any[]>([]);
-  const [matches, setMatches] = useState<any[]>([]);
+  const [matches, setMatches] = useState<Match[]>([]);
   const [joinedCohorts, setJoinedCohorts] = useState<any[]>([]);
   const [selectedMentor, setSelectedMentor] = useState<any>(null);
   const [filter, setFilter] = useState('all');
+  // Goals questionnaire shown before a mentor request is created.
+  const [goalMentor, setGoalMentor] = useState<any>(null);
+  const [goalField, setGoalField] = useState('');
+  const [goalHelp, setGoalHelp] = useState('');
+  const [goalType, setGoalType] = useState('');
+  const [goalStage, setGoalStage] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     fetchMentors();
@@ -51,14 +59,34 @@ export default function StudentDashboard({ profile }: { profile: any }) {
     setJoinedCohorts(data || []);
   }
 
-  async function requestMentor(mentorId: string) {
+  function openGoalForm(mentor: any) {
+    setGoalMentor(mentor);
+    setGoalField('');
+    setGoalHelp('');
+    setGoalType('');
+    setGoalStage('');
+  }
+
+  function closeGoalForm() {
+    setGoalMentor(null);
+  }
+
+  async function submitRequest() {
+    if (!goalMentor || submitting) return;
+    setSubmitting(true);
     await supabase
       .from('matches')
       .insert({
         student_id: profile.id,
-        mentor_id: mentorId,
+        mentor_id: goalMentor.id,
         status: 'pending',
+        goal_field: goalField.trim(),
+        goal_help: goalHelp.trim(),
+        goal_type: goalType,
+        goal_stage: goalStage,
       });
+    setSubmitting(false);
+    closeGoalForm();
     fetchMatches();
     setSelectedMentor(null);
     setPage('my-requests');
@@ -381,7 +409,7 @@ export default function StudentDashboard({ profile }: { profile: any }) {
               }}
               onClick={() =>
                 !hasPendingMatch(selectedMentor.id) &&
-                requestMentor(selectedMentor.id)
+                openGoalForm(selectedMentor)
               }
               disabled={hasPendingMatch(selectedMentor.id)}
             >
@@ -391,6 +419,23 @@ export default function StudentDashboard({ profile }: { profile: any }) {
             </button>
           </div>
         </div>
+        {goalMentor && (
+          <GoalForm
+            mentor={goalMentor}
+            C={C}
+            goalField={goalField}
+            setGoalField={setGoalField}
+            goalHelp={goalHelp}
+            setGoalHelp={setGoalHelp}
+            goalType={goalType}
+            setGoalType={setGoalType}
+            goalStage={goalStage}
+            setGoalStage={setGoalStage}
+            submitting={submitting}
+            onCancel={closeGoalForm}
+            onSubmit={submitRequest}
+          />
+        )}
       </div>
     );
   }
@@ -823,6 +868,183 @@ export default function StudentDashboard({ profile }: { profile: any }) {
             )}
           </>
         )}
+      </div>
+    </div>
+  );
+}
+
+function GoalForm({
+  mentor,
+  C,
+  goalField,
+  setGoalField,
+  goalHelp,
+  setGoalHelp,
+  goalType,
+  setGoalType,
+  goalStage,
+  setGoalStage,
+  submitting,
+  onCancel,
+  onSubmit,
+}: any) {
+  const canSubmit =
+    goalField.trim() && goalHelp.trim() && goalType && goalStage && !submitting;
+
+  const overlay: any = {
+    position: 'fixed',
+    inset: 0,
+    background: 'rgba(10,4,40,0.72)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 16,
+    zIndex: 1000,
+  };
+  const modal: any = {
+    background: C.card,
+    border: `0.5px solid ${C.border}`,
+    borderRadius: 14,
+    padding: 22,
+    width: '100%',
+    maxWidth: 440,
+    maxHeight: '90vh',
+    overflowY: 'auto',
+    fontFamily: 'sans-serif',
+    boxSizing: 'border-box',
+  };
+  const label: any = {
+    fontSize: 12,
+    color: C.muted,
+    marginBottom: 6,
+    display: 'block',
+  };
+  const input: any = {
+    width: '100%',
+    padding: '10px 12px',
+    border: `0.5px solid ${C.border}`,
+    borderRadius: 8,
+    fontSize: 13,
+    boxSizing: 'border-box',
+    background: '#1E0A5C',
+    color: C.white,
+    fontFamily: 'sans-serif',
+    outline: 'none',
+  };
+  const textarea: any = { ...input, minHeight: 84, resize: 'vertical' };
+  const field: any = { marginBottom: 16 };
+  const optRow: any = { display: 'flex', gap: 8, flexWrap: 'wrap' };
+  const opt = (active: boolean): any => ({
+    padding: '8px 12px',
+    borderRadius: 8,
+    fontSize: 12,
+    cursor: 'pointer',
+    fontWeight: active ? 700 : 400,
+    border: `0.5px solid ${active ? C.gold : C.border}`,
+    background: active ? C.gold : 'transparent',
+    color: active ? C.bg : C.muted,
+  });
+
+  return (
+    <div style={overlay} onClick={onCancel}>
+      <div style={modal} onClick={(e) => e.stopPropagation()}>
+        <div style={{ fontSize: 16, fontWeight: 500, color: C.white }}>
+          Before you request {mentor.users?.full_name}
+        </div>
+        <div style={{ fontSize: 12, color: C.muted, marginTop: 4, marginBottom: 18 }}>
+          A few quick questions so your mentor knows how to help.
+        </div>
+
+        <div style={field}>
+          <label style={label}>What field are you interested in?</label>
+          <input
+            style={input}
+            value={goalField}
+            onChange={(e) => setGoalField(e.target.value)}
+            placeholder="e.g. Software engineering, nursing, law..."
+          />
+        </div>
+
+        <div style={field}>
+          <label style={label}>What do you need help with?</label>
+          <textarea
+            style={textarea}
+            value={goalHelp}
+            onChange={(e) => setGoalHelp(e.target.value)}
+            placeholder="Share what you're hoping to get out of this connection..."
+          />
+        </div>
+
+        <div style={field}>
+          <label style={label}>
+            Are you looking for long-term mentorship or one-time advice?
+          </label>
+          <div style={optRow}>
+            {['Long-term mentorship', 'One-time advice'].map((o) => (
+              <div
+                key={o}
+                style={opt(goalType === o)}
+                onClick={() => setGoalType(o)}
+              >
+                {o}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={field}>
+          <label style={label}>What is your current stage?</label>
+          <div style={optRow}>
+            {['High school', 'College', 'Recent grad'].map((o) => (
+              <div
+                key={o}
+                style={opt(goalStage === o)}
+                onClick={() => setGoalStage(o)}
+              >
+                {o}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', gap: 8, marginTop: 22 }}>
+          <button
+            style={{
+              flex: 1,
+              padding: 10,
+              background: 'transparent',
+              color: C.muted,
+              border: `0.5px solid ${C.border}`,
+              borderRadius: 8,
+              fontSize: 13,
+              cursor: 'pointer',
+              fontFamily: 'sans-serif',
+            }}
+            onClick={onCancel}
+            disabled={submitting}
+          >
+            Cancel
+          </button>
+          <button
+            style={{
+              flex: 2,
+              padding: 10,
+              background: C.gold,
+              color: C.bg,
+              border: 'none',
+              borderRadius: 8,
+              fontSize: 13,
+              fontWeight: 700,
+              cursor: canSubmit ? 'pointer' : 'not-allowed',
+              opacity: canSubmit ? 1 : 0.5,
+              fontFamily: 'sans-serif',
+            }}
+            onClick={() => canSubmit && onSubmit()}
+            disabled={!canSubmit}
+          >
+            {submitting ? 'Sending...' : 'Send request'}
+          </button>
+        </div>
       </div>
     </div>
   );

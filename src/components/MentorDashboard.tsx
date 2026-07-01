@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../supabase'
 import { useIsMobile } from '../hooks/useIsMobile'
+import type { Match } from '../types'
 
 export default function MentorDashboard({ profile }: { profile: any }) {
   const isMobile = useIsMobile()
   const [menuOpen, setMenuOpen] = useState(false)
   const [page, setPage] = useState('requests')
   const [mentorProfile, setMentorProfile] = useState<any>(null)
-  const [requests, setRequests] = useState<any[]>([])
-  const [matches, setMatches] = useState<any[]>([])
+  const [requests, setRequests] = useState<Match[]>([])
+  const [matches, setMatches] = useState<Match[]>([])
   const [cohorts, setCohorts] = useState<any[]>([])
 
   useEffect(() => { fetchMentorProfile() }, [])
@@ -76,6 +77,9 @@ export default function MentorDashboard({ profile }: { profile: any }) {
     av: (bg:string,fg:string,size?:number) => ({width:size||36,height:size||36,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:500,background:bg,color:fg,flexShrink:0}),
     btn: (primary:boolean) => ({padding:'6px 13px',background:primary?C.gold:'transparent',color:primary?C.bg:C.muted,border:primary?'none':`0.5px solid ${C.border}`,borderRadius:8,fontSize:12,cursor:'pointer',fontWeight:primary?700:400}),
     card: {background:C.card,border:`0.5px solid ${C.border}`,borderRadius:12,padding:16,marginBottom:10},
+    goals: {marginTop:12,background:'rgba(212,160,23,0.06)',borderRadius:8,padding:12},
+    goalLine: {fontSize:12,color:C.muted,lineHeight:1.6,marginBottom:4},
+    goalLabel: {color:C.goldLight,fontWeight:500},
     impactGrid: {display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:12,marginBottom:16},
     impactItem: {background:'rgba(212,160,23,0.08)',borderRadius:8,padding:14,textAlign:'center' as any},
     impactBig: {fontSize:30,fontWeight:500,color:C.gold},
@@ -124,19 +128,31 @@ export default function MentorDashboard({ profile }: { profile: any }) {
           <>
             <div style={s.ph}><div style={s.pt}>Incoming requests</div><div style={s.ps}>Students who want to connect with you</div></div>
             {requests.length === 0 && <div style={{fontSize:13,color:C.muted,marginTop:20}}>No pending requests right now.</div>}
-            {requests.map(r => (
-              <div key={r.id} className="cc-row" style={s.reqRow}>
-                <div style={{...s.av('rgba(212,160,23,0.2)',C.goldLight),marginBottom:0}}>{r.users?.avatar_initials || '??'}</div>
-                <div style={{flex:1}}>
-                  <div style={{fontSize:13,fontWeight:500,color:C.white}}>{r.users?.full_name}</div>
-                  <div style={{fontSize:12,color:C.muted}}>{r.users?.field_of_interest || 'Student'}</div>
+            {requests.map(r => {
+              const hasGoals = r.goal_field || r.goal_help || r.goal_type || r.goal_stage
+              return (
+              <div key={r.id} className="cc-row" style={s.card}>
+                <div style={{display:'flex',alignItems:'center',gap:10}}>
+                  <div style={{...s.av('rgba(212,160,23,0.2)',C.goldLight),marginBottom:0}}>{r.users?.avatar_initials || '??'}</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontSize:13,fontWeight:500,color:C.white}}>{r.users?.full_name}</div>
+                    <div style={{fontSize:12,color:C.muted}}>{r.users?.field_of_interest || 'Student'}</div>
+                  </div>
+                  <div style={{display:'flex',gap:6}}>
+                    <button style={s.btn(true)} onClick={() => handleRequest(r.id, 'active')}>Accept</button>
+                    <button style={s.btn(false)} onClick={() => handleRequest(r.id, 'declined')}>Decline</button>
+                  </div>
                 </div>
-                <div style={{display:'flex',gap:6}}>
-                  <button style={s.btn(true)} onClick={() => handleRequest(r.id, 'active')}>Accept</button>
-                  <button style={s.btn(false)} onClick={() => handleRequest(r.id, 'declined')}>Decline</button>
-                </div>
+                {hasGoals && (
+                  <div style={s.goals}>
+                    {r.goal_field && <div style={s.goalLine}><span style={s.goalLabel}>Field:</span> {r.goal_field}</div>}
+                    {r.goal_type && <div style={s.goalLine}><span style={s.goalLabel}>Looking for:</span> {r.goal_type}</div>}
+                    {r.goal_stage && <div style={s.goalLine}><span style={s.goalLabel}>Stage:</span> {r.goal_stage}</div>}
+                    {r.goal_help && <div style={s.goalLine}><span style={s.goalLabel}>What they need:</span> {r.goal_help}</div>}
+                  </div>
+                )}
               </div>
-            ))}
+            )})}
             {matches.length > 0 && (
               <>
                 <div style={{fontSize:13,fontWeight:500,color:C.white,margin:'18px 0 10px'}}>Active mentees</div>
