@@ -62,13 +62,19 @@ export default function Auth() {
   return (
     <div className="cc-fade" style={{
       minHeight:'100dvh',
+      // On mobile the two panels stack vertically and their combined content is
+      // taller than the viewport. Because #root has overflow:hidden, we make the
+      // Auth container its own scroll region so the bottom (the sign-up toggle)
+      // stays reachable instead of being clipped.
+      height: isMobile ? '100dvh' : undefined,
+      overflowY: isMobile ? 'auto' : undefined,
       display:'flex',
       flexDirection: isMobile ? 'column' : 'row',
       background:'#1E0A5C',
       fontFamily:"'Georgia', serif",
     }}>
       <div style={{
-        flex:1,
+        flex: isMobile ? '0 0 auto' : 1,
         display:'flex',
         flexDirection:'column',
         alignItems:'center',
@@ -108,7 +114,7 @@ export default function Auth() {
       </div>
 
       <div style={{
-        flex:1,
+        flex: isMobile ? '0 0 auto' : 1,
         display:'flex',
         alignItems:'center',
         justifyContent:'center',
