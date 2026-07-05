@@ -63,6 +63,137 @@ button:not(:disabled):active {
   animation: ccFadeIn 0.35s ease both;
 }
 
+/* Gold focus glow for inputs, selects and textareas.
+   !important is needed because the base border is set inline. */
+.cc-input {
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+.cc-input:focus {
+  border-color: #d4a017 !important;
+  box-shadow: 0 0 0 3px rgba(212, 160, 23, 0.16);
+  outline: none;
+}
+
+/* Gold primary buttons get a soft glow on hover. */
+.cc-btn-gold:not(:disabled):hover {
+  box-shadow: 0 6px 20px rgba(212, 160, 23, 0.35);
+}
+
+/* Themed loading spinner. */
+@keyframes ccSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.cc-spinner {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid rgba(212, 160, 23, 0.2);
+  border-top-color: #d4a017;
+  animation: ccSpin 0.8s linear infinite;
+}
+.cc-spinner-sm {
+  width: 22px;
+  height: 22px;
+  border-width: 2px;
+}
+
+/* ---- Auth page ---- */
+
+/* Slow-drifting glows behind the auth screen. Purely decorative. */
+.cc-auth-glow {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+.cc-auth-glow-a {
+  width: 55vmax;
+  height: 55vmax;
+  top: -20vmax;
+  left: -15vmax;
+  background: radial-gradient(circle, rgba(93, 62, 214, 0.4), transparent 65%);
+  animation: ccDriftA 22s ease-in-out infinite alternate;
+}
+.cc-auth-glow-b {
+  width: 50vmax;
+  height: 50vmax;
+  bottom: -18vmax;
+  right: -12vmax;
+  background: radial-gradient(circle, rgba(61, 42, 158, 0.55), transparent 65%);
+  animation: ccDriftB 26s ease-in-out infinite alternate;
+}
+.cc-auth-glow-c {
+  width: 34vmax;
+  height: 34vmax;
+  top: 30%;
+  left: 38%;
+  background: radial-gradient(circle, rgba(212, 160, 23, 0.1), transparent 60%);
+  animation: ccDriftC 18s ease-in-out infinite alternate;
+}
+@keyframes ccDriftA {
+  to {
+    transform: translate(8vmax, 6vmax) scale(1.1);
+  }
+}
+@keyframes ccDriftB {
+  to {
+    transform: translate(-6vmax, -8vmax) scale(1.15);
+  }
+}
+@keyframes ccDriftC {
+  to {
+    transform: translate(-5vmax, 4vmax) scale(0.9);
+  }
+}
+
+/* Staggered entrance for the verse panel (delay set inline per element). */
+@keyframes ccRiseIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.cc-rise {
+  animation: ccRiseIn 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+/* Gentle breathing glow on the auth emblem. */
+@keyframes ccEmblemGlow {
+  from {
+    box-shadow: 0 0 24px rgba(212, 160, 23, 0.18);
+  }
+  to {
+    box-shadow: 0 0 40px rgba(212, 160, 23, 0.38);
+  }
+}
+.cc-emblem {
+  animation: ccEmblemGlow 3.5s ease-in-out infinite alternate;
+}
+
+/* Cross-fade when toggling between sign-in and sign-up. */
+@keyframes ccSwapIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.cc-swap {
+  animation: ccSwapIn 0.3s ease both;
+}
+
 /* Respect users who prefer reduced motion. */
 @media (prefers-reduced-motion: reduce) {
   button,
@@ -70,7 +201,14 @@ button:not(:disabled):active {
   .cc-row,
   .cc-nav,
   .cc-chip,
-  .cc-fade {
+  .cc-fade,
+  .cc-input,
+  .cc-auth-glow-a,
+  .cc-auth-glow-b,
+  .cc-auth-glow-c,
+  .cc-rise,
+  .cc-emblem,
+  .cc-swap {
     transition: none;
     animation: none;
   }

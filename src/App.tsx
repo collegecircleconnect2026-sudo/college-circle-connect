@@ -34,19 +34,18 @@ function App() {
     setLoading(false)
   }
 
-  if (loading) return (
-    <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',fontFamily:'sans-serif',color:'#534AB7'}}>
-      Loading...
+  const loadingScreen = (message: string) => (
+    <div style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:16,height:'100vh',fontFamily:'sans-serif',background:'#1E0A5C'}}>
+      <div className="cc-spinner"></div>
+      <div style={{fontSize:13,color:'rgba(255,255,255,0.6)'}}>{message}</div>
     </div>
   )
+
+  if (loading) return loadingScreen('Loading your Circle...')
 
   if (!session) return <Auth />
 
-  if (!userProfile) return (
-    <div style={{display:'flex',alignItems:'center',justifyContent:'center',height:'100vh',fontFamily:'sans-serif'}}>
-      Setting up your profile...
-    </div>
-  )
+  if (!userProfile) return loadingScreen('Setting up your profile...')
 
   if (userProfile.role === 'mentor') return <MentorDashboard profile={userProfile} />
   if (userProfile.role === 'church_admin') return <ChurchAdminDashboard profile={userProfile} />
