@@ -57,35 +57,39 @@ export default function MentorDashboard({ profile }: { profile: any }) {
 
   const s: any = {
     app: {display:'flex',flexDirection:isMobile?'column':'row',height:isMobile?'auto':'100vh',minHeight:'100vh',fontFamily:'sans-serif',background:C.bg},
-    sidebar: {width:isMobile?'100%':210,background:C.sidebar,borderRight:isMobile?'none':`0.5px solid ${C.border}`,borderBottom:isMobile?`0.5px solid ${C.border}`:'none',display:'flex',flexDirection:'column'},
+    sidebar: {width:isMobile?'100%':210,background:C.sidebar,borderRight:isMobile?'none':`1px solid ${C.border}`,borderBottom:isMobile?`1px solid ${C.border}`:'none',display:'flex',flexDirection:'column'},
     topBar: {display:'flex',alignItems:'center',justifyContent:'space-between',padding:'12px 18px'},
-    menuBtn: {background:'transparent',border:`0.5px solid ${C.border}`,borderRadius:8,color:C.gold,fontSize:13,padding:'6px 10px',cursor:'pointer'},
-    logo: {padding:'16px 18px',borderBottom:`0.5px solid ${C.border}`},
-    logoTitle: {fontSize:13,fontWeight:500,color:C.gold},
+    menuBtn: {background:'transparent',border:`1px solid ${C.border}`,borderRadius:8,color:C.gold,fontSize:13,fontWeight:600,padding:'6px 12px',cursor:'pointer'},
+    logo: {padding:'16px 18px',borderBottom:`1px solid ${C.border}`},
+    logoTitle: {fontSize:13,fontWeight:600,color:C.gold,letterSpacing:0.2},
     logoSub: {fontSize:11,color:C.muted,marginTop:2},
-    pill: {margin:'10px 18px 0',padding:'5px 10px',background:'rgba(212,160,23,0.15)',borderRadius:20,fontSize:11,color:C.gold,fontWeight:500,display:'inline-block'},
+    pill: {margin:'10px 18px 0',padding:'5px 10px',background:'rgba(212,160,23,0.15)',borderRadius:20,fontSize:11,color:C.gold,fontWeight:600,letterSpacing:0.3,display:'inline-block'},
     nav: {padding:'10px 0',flex:1},
-    navSection: {padding:'6px 18px 4px',fontSize:10,color:C.hint,textTransform:'uppercase' as any,letterSpacing:0.6,marginTop:6},
-    navItem: (active:boolean) => ({padding:'7px 18px',fontSize:13,color:active?C.gold:C.muted,cursor:'pointer',borderLeft:active?`2px solid ${C.gold}`:'2px solid transparent',background:active?'rgba(212,160,23,0.1)':'transparent',fontWeight:active?500:400}),
-    signOut: {padding:'12px 18px',borderTop:`0.5px solid ${C.border}`},
-    signOutBtn: {width:'100%',padding:'6px',border:`0.5px solid ${C.border}`,borderRadius:8,fontSize:12,cursor:'pointer',background:'transparent',color:C.muted},
-    main: {flex:1,overflowY:'auto' as any,padding:24},
-    ph: {marginBottom:18},
-    pt: {fontSize:17,fontWeight:500,color:C.white},
-    ps: {fontSize:12,color:C.muted,marginTop:3},
-    reqRow: {background:C.card,border:`0.5px solid ${C.border}`,borderRadius:12,padding:'12px 14px',marginBottom:8,display:'flex',alignItems:'center',gap:10},
-    av: (bg:string,fg:string,size?:number) => ({width:size||36,height:size||36,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:500,background:bg,color:fg,flexShrink:0}),
-    btn: (primary:boolean) => ({padding:'6px 13px',background:primary?C.gold:'transparent',color:primary?C.bg:C.muted,border:primary?'none':`0.5px solid ${C.border}`,borderRadius:8,fontSize:12,cursor:'pointer',fontWeight:primary?700:400}),
-    card: {background:C.card,border:`0.5px solid ${C.border}`,borderRadius:12,padding:16,marginBottom:10},
-    goals: {marginTop:12,background:'rgba(212,160,23,0.06)',borderRadius:8,padding:12},
+    navSection: {padding:'6px 18px 4px',fontSize:10,fontWeight:600,color:C.hint,textTransform:'uppercase' as any,letterSpacing:1,marginTop:6},
+    navItem: (active:boolean) => ({padding:'8px 18px',fontSize:13,color:active?C.gold:C.muted,cursor:'pointer',borderLeft:active?`2px solid ${C.gold}`:'2px solid transparent',background:active?'rgba(212,160,23,0.1)':'transparent',fontWeight:active?600:400}),
+    signOut: {padding:'12px 18px',borderTop:`1px solid ${C.border}`},
+    signOutBtn: {width:'100%',padding:'8px',border:`1px solid ${C.border}`,borderRadius:8,fontSize:12,cursor:'pointer',background:'transparent',color:C.muted},
+    main: {flex:1,overflowY:'auto' as any,padding:isMobile?20:28},
+    ph: {marginBottom:20},
+    pt: {fontSize:20,fontWeight:600,color:C.white,letterSpacing:'-0.2px'},
+    ps: {fontSize:13,color:C.muted,marginTop:4},
+    reqRow: {background:C.card,border:`1px solid ${C.border}`,borderRadius:12,padding:'12px 16px',marginBottom:10,display:'flex',alignItems:'center',gap:12,boxShadow:'0 2px 8px rgba(0,0,0,0.15)'},
+    av: (bg:string,fg:string,size?:number) => ({width:size||36,height:size||36,borderRadius:'50%',display:'flex',alignItems:'center',justifyContent:'center',fontSize:11,fontWeight:600,background:bg,color:fg,flexShrink:0}),
+    btn: (primary:boolean) => ({padding:'8px 16px',background:primary?C.gold:'transparent',color:primary?C.bg:'rgba(255,255,255,0.75)',border:primary?'none':`1px solid ${C.border}`,borderRadius:8,fontSize:12,cursor:'pointer',fontWeight:primary?700:500}),
+    card: {background:C.card,border:`1px solid ${C.border}`,borderRadius:14,padding:16,marginBottom:12,boxShadow:'0 2px 10px rgba(0,0,0,0.18)'},
+    goals: {marginTop:12,background:'rgba(212,160,23,0.06)',borderRadius:10,padding:12},
     goalLine: {fontSize:12,color:C.muted,lineHeight:1.6,marginBottom:4},
-    goalLabel: {color:C.goldLight,fontWeight:500},
-    impactGrid: {display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:12,marginBottom:16},
-    impactItem: {background:'rgba(212,160,23,0.08)',borderRadius:8,padding:14,textAlign:'center' as any},
-    impactBig: {fontSize:30,fontWeight:500,color:C.gold},
-    impactLabel: {fontSize:12,color:C.muted,marginTop:2},
+    goalLabel: {color:C.goldLight,fontWeight:600},
+    impactGrid: {display:'grid',gridTemplateColumns:isMobile?'1fr':'repeat(3,1fr)',gap:12,marginBottom:20},
+    impactItem: {background:'rgba(212,160,23,0.08)',border:'1px solid rgba(212,160,23,0.15)',borderRadius:12,padding:16,textAlign:'center' as any},
+    impactBig: {fontSize:30,fontWeight:600,color:C.gold},
+    impactLabel: {fontSize:12,color:C.muted,marginTop:4},
     winDot: {width:8,height:8,borderRadius:'50%',background:C.gold,marginTop:5,flexShrink:0},
     quote: {fontSize:13,color:C.muted,lineHeight:1.6,borderLeft:`2px solid ${C.gold}`,paddingLeft:12,marginBottom:0,borderRadius:0},
+    empty: {textAlign:'center' as any,padding:'40px 20px',border:`1px dashed ${C.border}`,borderRadius:14,background:'rgba(255,255,255,0.02)',marginTop:8},
+    emptyIcon: {fontSize:22,color:C.gold,marginBottom:10},
+    emptyTitle: {fontSize:14,fontWeight:600,color:C.white,marginBottom:4},
+    emptyHint: {fontSize:12.5,color:C.muted,lineHeight:1.6},
   }
 
   return (
@@ -127,7 +131,13 @@ export default function MentorDashboard({ profile }: { profile: any }) {
         {page === 'requests' && (
           <>
             <div style={s.ph}><div style={s.pt}>Incoming requests</div><div style={s.ps}>Students who want to connect with you</div></div>
-            {requests.length === 0 && <div style={{fontSize:13,color:C.muted,marginTop:20}}>No pending requests right now.</div>}
+            {requests.length === 0 && (
+              <div style={s.empty}>
+                <div style={s.emptyIcon}>✦</div>
+                <div style={s.emptyTitle}>No pending requests right now</div>
+                <div style={s.emptyHint}>When a student requests you as a mentor, it will show up here.</div>
+              </div>
+            )}
             {requests.map(r => {
               const hasGoals = r.goal_field || r.goal_help || r.goal_type || r.goal_stage
               return (
@@ -155,7 +165,7 @@ export default function MentorDashboard({ profile }: { profile: any }) {
             )})}
             {matches.length > 0 && (
               <>
-                <div style={{fontSize:13,fontWeight:500,color:C.white,margin:'18px 0 10px'}}>Active mentees</div>
+                <div style={{fontSize:11,fontWeight:600,color:C.hint,textTransform:'uppercase' as any,letterSpacing:1,margin:'22px 0 10px'}}>Active mentees</div>
                 {matches.map(m => (
                   <div key={m.id} className="cc-row" style={s.reqRow}>
                     <div style={{...s.av('rgba(93,202,165,0.2)','#5DCAA5'),marginBottom:0}}>{m.users?.avatar_initials || '??'}</div>
@@ -180,10 +190,10 @@ export default function MentorDashboard({ profile }: { profile: any }) {
               <div style={s.impactItem}><div style={s.impactBig}>{cohorts.length}</div><div style={s.impactLabel}>Cohorts led</div></div>
             </div>
             <div style={s.card}>
-              <div style={{fontSize:13,fontWeight:500,color:C.white,marginBottom:12}}>Your active mentees</div>
-              {matches.length === 0 && <div style={{fontSize:13,color:C.muted}}>No active mentees yet — accept a request to get started.</div>}
+              <div style={{fontSize:13,fontWeight:600,color:C.white,marginBottom:12}}>Your active mentees</div>
+              {matches.length === 0 && <div style={{fontSize:13,color:C.muted,lineHeight:1.6}}>No active mentees yet — accept a request to get started.</div>}
               {matches.map(m => (
-                <div key={m.id} style={{display:'flex',gap:8,alignItems:'flex-start',padding:'8px 0',borderBottom:`0.5px solid ${C.border}`}}>
+                <div key={m.id} style={{display:'flex',gap:8,alignItems:'flex-start',padding:'8px 0',borderBottom:`1px solid ${C.border}`}}>
                   <div style={s.winDot}></div>
                   <div>
                     <div style={{fontSize:13,color:C.white}}>{m.users?.full_name}</div>
@@ -198,7 +208,13 @@ export default function MentorDashboard({ profile }: { profile: any }) {
         {page === 'cohorts' && (
           <>
             <div style={s.ph}><div style={s.pt}>My cohorts</div><div style={s.ps}>Small groups you are leading</div></div>
-            {cohorts.length === 0 && <div style={{fontSize:13,color:C.muted,marginTop:20}}>No cohorts yet.</div>}
+            {cohorts.length === 0 && (
+              <div style={s.empty}>
+                <div style={s.emptyIcon}>✦</div>
+                <div style={s.emptyTitle}>No cohorts yet</div>
+                <div style={s.emptyHint}>Small groups you lead will appear here once they are set up.</div>
+              </div>
+            )}
             {cohorts.map(c => (
               <div key={c.id} className="cc-card" style={s.card}>
                 <div style={{display:'flex',justifyContent:'space-between',marginBottom:8}}>
@@ -217,7 +233,12 @@ export default function MentorDashboard({ profile }: { profile: any }) {
           <>
             <div style={s.ph}><div style={s.pt}>My profile</div><div style={s.ps}>This is what students see when they view your mentor card</div></div>
             {mentorProfile && <ProfileEditor mentorProfile={mentorProfile} onSave={fetchMentorProfile} C={C} />}
-            {!mentorProfile && <div style={{fontSize:13,color:C.muted,marginTop:20}}>Loading your profile...</div>}
+            {!mentorProfile && (
+              <div style={{display:'flex',flexDirection:'column',alignItems:'center',gap:12,padding:'40px 0'}}>
+                <div className="cc-spinner"></div>
+                <div style={{fontSize:13,color:C.muted}}>Loading your profile...</div>
+              </div>
+            )}
           </>
         )}
       </div>
@@ -250,17 +271,17 @@ function ProfileEditor({ mentorProfile, onSave, C }: any) {
   }
 
   const inputStyle = {
-    width:'100%',padding:'10px 12px',border:`0.5px solid ${C.border}`,
-    borderRadius:8,fontSize:13,marginBottom:14,boxSizing:'border-box' as any,
+    width:'100%',padding:'11px 12px',border:`1px solid ${C.border}`,
+    borderRadius:10,fontSize:13,marginBottom:16,boxSizing:'border-box' as any,
     background:'#1E0A5C',color:C.white,fontFamily:'sans-serif',outline:'none'
   }
   const textareaStyle = {...inputStyle, minHeight:100, resize:'vertical' as any}
-  const labelStyle = {fontSize:12,color:C.muted,marginBottom:5,display:'block',fontFamily:'sans-serif'}
+  const labelStyle = {fontSize:12,fontWeight:500,color:'rgba(255,255,255,0.7)',marginBottom:6,display:'block',fontFamily:'sans-serif'}
 
   return (
-    <div style={{background:C.card,border:`0.5px solid ${C.border}`,borderRadius:12,padding:20}}>
+    <div style={{background:C.card,border:`1px solid ${C.border}`,borderRadius:14,padding:24,boxShadow:'0 4px 16px rgba(0,0,0,0.2)'}}>
       <label style={labelStyle}>Field of work</label>
-      <select style={inputStyle} value={field} onChange={e=>setField(e.target.value)}>
+      <select className="cc-input" style={{...inputStyle,cursor:'pointer'}} value={field} onChange={e=>setField(e.target.value)}>
         <option value="Technology">Technology</option>
         <option value="Healthcare">Healthcare</option>
         <option value="Finance">Finance</option>
@@ -270,13 +291,13 @@ function ProfileEditor({ mentorProfile, onSave, C }: any) {
       </select>
 
       <label style={labelStyle}>Company / Organization</label>
-      <input style={inputStyle} value={company} onChange={e=>setCompany(e.target.value)} placeholder="Where do you work?" />
+      <input className="cc-input" style={inputStyle} value={company} onChange={e=>setCompany(e.target.value)} placeholder="Where do you work?" />
 
       <label style={labelStyle}>Your story</label>
-      <textarea style={textareaStyle} value={story} onChange={e=>setStory(e.target.value)} placeholder="Share your journey in your own words — where you came from, what drove you, what you wish someone had told you..." />
+      <textarea className="cc-input" style={textareaStyle} value={story} onChange={e=>setStory(e.target.value)} placeholder="Share your journey in your own words — where you came from, what drove you, what you wish someone had told you..." />
 
       <label style={labelStyle}>How you got here</label>
-      <textarea style={textareaStyle} value={journey} onChange={e=>setJourney(e.target.value)} placeholder="Walk through your career path step by step..." />
+      <textarea className="cc-input" style={textareaStyle} value={journey} onChange={e=>setJourney(e.target.value)} placeholder="Walk through your career path step by step..." />
 
       <div style={{display:'flex',alignItems:'center',gap:10,marginBottom:16}}>
         <input type="checkbox" checked={available} onChange={e=>setAvailable(e.target.checked)} id="avail" />
@@ -284,7 +305,8 @@ function ProfileEditor({ mentorProfile, onSave, C }: any) {
       </div>
 
       <button
-        style={{padding:'10px 20px',background:saved?'#1D9E75':C.gold,color:saved?'white':C.bg,border:'none',borderRadius:8,fontSize:13,fontWeight:700,cursor:'pointer',fontFamily:'sans-serif'}}
+        className="cc-btn-gold"
+        style={{padding:'10px 22px',background:saved?'#1D9E75':C.gold,color:saved?'white':C.bg,border:'none',borderRadius:8,fontSize:13,fontWeight:700,cursor:'pointer',fontFamily:'sans-serif',letterSpacing:0.2}}
         onClick={save}
         disabled={saving}
       >

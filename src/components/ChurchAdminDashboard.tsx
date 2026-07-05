@@ -95,8 +95,8 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
     sidebar: {
       width: isMobile ? '100%' : 210,
       background: C.sidebar,
-      borderRight: isMobile ? 'none' : `0.5px solid ${C.border}`,
-      borderBottom: isMobile ? `0.5px solid ${C.border}` : 'none',
+      borderRight: isMobile ? 'none' : `1px solid ${C.border}`,
+      borderBottom: isMobile ? `1px solid ${C.border}` : 'none',
       display: 'flex',
       flexDirection: 'column',
     },
@@ -108,15 +108,16 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
     },
     menuBtn: {
       background: 'transparent',
-      border: `0.5px solid ${C.border}`,
+      border: `1px solid ${C.border}`,
       borderRadius: 8,
       color: C.gold,
       fontSize: 13,
-      padding: '6px 10px',
+      fontWeight: 600,
+      padding: '6px 12px',
       cursor: 'pointer',
     },
-    logo: { padding: '16px 18px', borderBottom: `0.5px solid ${C.border}` },
-    logoTitle: { fontSize: 13, fontWeight: 500, color: C.gold },
+    logo: { padding: '16px 18px', borderBottom: `1px solid ${C.border}` },
+    logoTitle: { fontSize: 13, fontWeight: 600, color: C.gold, letterSpacing: 0.2 },
     logoSub: { fontSize: 11, color: C.muted, marginTop: 2 },
     pill: {
       margin: '10px 18px 0',
@@ -125,71 +126,76 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
       borderRadius: 20,
       fontSize: 11,
       color: C.gold,
-      fontWeight: 500,
+      fontWeight: 600,
+      letterSpacing: 0.3,
       display: 'inline-block',
     },
     nav: { padding: '10px 0', flex: 1 },
     navSection: {
       padding: '6px 18px 4px',
       fontSize: 10,
+      fontWeight: 600,
       color: C.hint,
       textTransform: 'uppercase' as any,
-      letterSpacing: 0.6,
+      letterSpacing: 1,
       marginTop: 6,
     },
     navItem: (active: boolean) => ({
-      padding: '7px 18px',
+      padding: '8px 18px',
       fontSize: 13,
       color: active ? C.gold : C.muted,
       cursor: 'pointer',
       borderLeft: active ? `2px solid ${C.gold}` : '2px solid transparent',
       background: active ? 'rgba(212,160,23,0.1)' : 'transparent',
-      fontWeight: active ? 500 : 400,
+      fontWeight: active ? 600 : 400,
     }),
-    signOut: { padding: '12px 18px', borderTop: `0.5px solid ${C.border}` },
+    signOut: { padding: '12px 18px', borderTop: `1px solid ${C.border}` },
     signOutBtn: {
       width: '100%',
-      padding: '6px',
-      border: `0.5px solid ${C.border}`,
+      padding: '8px',
+      border: `1px solid ${C.border}`,
       borderRadius: 8,
       fontSize: 12,
       cursor: 'pointer',
       background: 'transparent',
       color: C.muted,
     },
-    main: { flex: 1, overflowY: 'auto' as any, padding: 24 },
-    ph: { marginBottom: 18 },
-    pt: { fontSize: 17, fontWeight: 500, color: C.white },
-    ps: { fontSize: 12, color: C.muted, marginTop: 3 },
+    main: { flex: 1, overflowY: 'auto' as any, padding: isMobile ? 20 : 28 },
+    ph: { marginBottom: 20 },
+    pt: { fontSize: 20, fontWeight: 600, color: C.white, letterSpacing: '-0.2px' },
+    ps: { fontSize: 13, color: C.muted, marginTop: 4 },
     statGrid: {
       display: 'grid',
-      gridTemplateColumns: isMobile ? '1fr' : 'repeat(4,1fr)',
-      gap: 10,
-      marginBottom: 18,
+      gridTemplateColumns: isMobile ? '1fr 1fr' : 'repeat(4,1fr)',
+      gap: 12,
+      marginBottom: 20,
     },
     statCard: {
       background: 'rgba(212,160,23,0.08)',
-      borderRadius: 8,
-      padding: 12,
+      border: '1px solid rgba(212,160,23,0.15)',
+      borderRadius: 12,
+      padding: 14,
     },
-    sl: { fontSize: 11, color: C.muted },
-    sv: { fontSize: 20, fontWeight: 500, color: C.gold, marginTop: 3 },
+    sl: { fontSize: 11, fontWeight: 500, color: C.muted, textTransform: 'uppercase' as any, letterSpacing: 0.6 },
+    sv: { fontSize: 24, fontWeight: 600, color: C.gold, marginTop: 4 },
     card: {
       background: C.card,
-      border: `0.5px solid ${C.border}`,
-      borderRadius: 12,
+      border: `1px solid ${C.border}`,
+      borderRadius: 14,
       padding: 16,
-      marginBottom: 10,
+      marginBottom: 12,
+      boxShadow: '0 2px 10px rgba(0,0,0,0.18)',
     },
     reqRow: {
       background: C.card,
-      border: `0.5px solid ${C.border}`,
+      border: `1px solid ${C.border}`,
       borderRadius: 12,
-      padding: '12px 14px',
-      marginBottom: 8,
+      padding: '12px 16px',
+      marginBottom: 10,
       display: 'flex',
       alignItems: 'center',
-      gap: 10,
+      gap: 12,
+      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
     },
     av: (bg: string, fg: string) => ({
       width: 36,
@@ -199,42 +205,46 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
       alignItems: 'center',
       justifyContent: 'center',
       fontSize: 11,
-      fontWeight: 500,
+      fontWeight: 600,
       background: bg,
       color: fg,
       flexShrink: 0,
     }),
     btn: (primary: boolean) => ({
-      padding: '6px 13px',
+      padding: '8px 16px',
       background: primary ? C.gold : 'transparent',
-      color: primary ? C.bg : C.muted,
-      border: primary ? 'none' : `0.5px solid ${C.border}`,
+      color: primary ? C.bg : 'rgba(255,255,255,0.75)',
+      border: primary ? 'none' : `1px solid ${C.border}`,
       borderRadius: 8,
       fontSize: 12,
       cursor: 'pointer',
-      fontWeight: primary ? 700 : 400,
+      fontWeight: primary ? 700 : 500,
     }),
     input: {
       width: '100%',
-      padding: '8px 10px',
-      border: `0.5px solid ${C.border}`,
-      borderRadius: 8,
+      padding: '11px 12px',
+      border: `1px solid ${C.border}`,
+      borderRadius: 10,
       fontSize: 13,
-      marginBottom: 10,
+      marginBottom: 12,
       boxSizing: 'border-box' as any,
       background: '#1E0A5C',
       color: C.white,
+      fontFamily: 'sans-serif',
+      outline: 'none',
     },
     textarea: {
       width: '100%',
-      padding: '8px 10px',
-      border: `0.5px solid ${C.border}`,
-      borderRadius: 8,
+      padding: '11px 12px',
+      border: `1px solid ${C.border}`,
+      borderRadius: 10,
       fontSize: 13,
-      marginBottom: 10,
+      marginBottom: 12,
       boxSizing: 'border-box' as any,
       background: '#1E0A5C',
       color: C.white,
+      fontFamily: 'sans-serif',
+      outline: 'none',
       minHeight: 80,
       resize: 'vertical' as any,
     },
@@ -249,11 +259,23 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
     },
     nudgeCard: {
       background: C.card,
-      border: `0.5px solid ${C.border}`,
+      border: `1px solid ${C.border}`,
       borderRadius: 12,
       padding: '14px 16px',
-      marginBottom: 8,
+      marginBottom: 10,
+      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
     },
+    empty: {
+      textAlign: 'center' as any,
+      padding: '40px 20px',
+      border: `1px dashed ${C.border}`,
+      borderRadius: 14,
+      background: 'rgba(255,255,255,0.02)',
+      marginTop: 8,
+    },
+    emptyIcon: { fontSize: 22, color: C.gold, marginBottom: 10 },
+    emptyTitle: { fontSize: 14, fontWeight: 600, color: C.white, marginBottom: 4 },
+    emptyHint: { fontSize: 12.5, color: C.muted, lineHeight: 1.6 },
   };
 
   const roleColors: any = {
@@ -382,7 +404,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
               <div
                 style={{
                   fontSize: 13,
-                  fontWeight: 500,
+                  fontWeight: 600,
                   color: C.white,
                   marginBottom: 12,
                 }}
@@ -390,8 +412,9 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
                 Recent matches
               </div>
               {matches.length === 0 && (
-                <div style={{ fontSize: 13, color: C.muted }}>
-                  No matches yet.
+                <div style={{ fontSize: 13, color: C.muted, lineHeight: 1.6 }}>
+                  No matches yet — they will show up here as students and
+                  mentors connect.
                 </div>
               )}
               {matches.slice(0, 5).map((m) => (
@@ -401,7 +424,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
                     display: 'flex',
                     justifyContent: 'space-between',
                     padding: '8px 0',
-                    borderBottom: `0.5px solid ${C.border}`,
+                    borderBottom: `1px solid ${C.border}`,
                   }}
                 >
                   <span style={{ fontSize: 13, color: C.white }}>
@@ -435,8 +458,13 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
               <div style={s.ps}>Everyone in your church circle</div>
             </div>
             {members.length === 0 && (
-              <div style={{ fontSize: 13, color: C.muted, marginTop: 20 }}>
-                No members yet.
+              <div style={s.empty}>
+                <div style={s.emptyIcon}>✦</div>
+                <div style={s.emptyTitle}>No members yet</div>
+                <div style={s.emptyHint}>
+                  Students and mentors will appear here as they join the
+                  Circle.
+                </div>
               </div>
             )}
             {members.map((m) => {
@@ -482,8 +510,13 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
               <div style={s.ps}>Every mentor-student pair at your church</div>
             </div>
             {matches.length === 0 && (
-              <div style={{ fontSize: 13, color: C.muted, marginTop: 20 }}>
-                No matches yet.
+              <div style={s.empty}>
+                <div style={s.emptyIcon}>✦</div>
+                <div style={s.emptyTitle}>No matches yet</div>
+                <div style={s.emptyHint}>
+                  Mentor-student pairs will appear here once requests are
+                  accepted.
+                </div>
               </div>
             )}
             {matches.map((m) => (
@@ -550,7 +583,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
                 <div
                   style={{
                     fontSize: 13,
-                    fontWeight: 500,
+                    fontWeight: 600,
                     color: C.white,
                     marginBottom: 12,
                   }}
@@ -558,6 +591,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
                   New success story
                 </div>
                 <input
+                  className="cc-input"
                   style={s.input}
                   placeholder="Outcome (e.g. Accepted to U of M Medical School)"
                   value={newStory.outcome}
@@ -566,6 +600,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
                   }
                 />
                 <textarea
+                  className="cc-input"
                   style={s.textarea}
                   placeholder="Student quote about their experience..."
                   value={newStory.quote}
@@ -587,8 +622,13 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
               </div>
             )}
             {stories.length === 0 && (
-              <div style={{ fontSize: 13, color: C.muted, marginTop: 20 }}>
-                No stories yet — add your first one!
+              <div style={s.empty}>
+                <div style={s.emptyIcon}>✦</div>
+                <div style={s.emptyTitle}>No stories yet</div>
+                <div style={s.emptyHint}>
+                  Add your first success story to celebrate a win from your
+                  community.
+                </div>
               </div>
             )}
             {stories.map((story) => (
@@ -644,7 +684,7 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
               <div
                 style={{
                   fontSize: 13,
-                  fontWeight: 500,
+                  fontWeight: 600,
                   color: C.white,
                   marginBottom: 10,
                 }}
@@ -729,9 +769,13 @@ export default function ChurchAdminDashboard(_props: { profile: any }) {
                 </div>
               ))}
             {matches.filter((m) => m.status === 'active').length === 0 && (
-              <div style={{ fontSize: 13, color: C.muted, marginTop: 20 }}>
-                No active matches yet — nudges will appear here once students
-                are matched.
+              <div style={s.empty}>
+                <div style={s.emptyIcon}>✦</div>
+                <div style={s.emptyTitle}>No active matches yet</div>
+                <div style={s.emptyHint}>
+                  Nudges will appear here once students are matched with
+                  mentors.
+                </div>
               </div>
             )}
           </>

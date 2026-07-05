@@ -125,8 +125,8 @@ export default function StudentDashboard({ profile }: { profile: any }) {
     sidebar: {
       width: isMobile ? '100%' : 210,
       background: C.sidebar,
-      borderRight: isMobile ? 'none' : `0.5px solid ${C.border}`,
-      borderBottom: isMobile ? `0.5px solid ${C.border}` : 'none',
+      borderRight: isMobile ? 'none' : `1px solid ${C.border}`,
+      borderBottom: isMobile ? `1px solid ${C.border}` : 'none',
       display: 'flex',
       flexDirection: 'column',
     },
@@ -138,15 +138,16 @@ export default function StudentDashboard({ profile }: { profile: any }) {
     },
     menuBtn: {
       background: 'transparent',
-      border: `0.5px solid ${C.border}`,
+      border: `1px solid ${C.border}`,
       borderRadius: 8,
       color: C.gold,
       fontSize: 13,
-      padding: '6px 10px',
+      fontWeight: 600,
+      padding: '6px 12px',
       cursor: 'pointer',
     },
-    logo: { padding: '16px 18px', borderBottom: `0.5px solid ${C.border}` },
-    logoTitle: { fontSize: 13, fontWeight: 500, color: C.gold },
+    logo: { padding: '16px 18px', borderBottom: `1px solid ${C.border}` },
+    logoTitle: { fontSize: 13, fontWeight: 600, color: C.gold, letterSpacing: 0.2 },
     logoSub: { fontSize: 11, color: C.muted, marginTop: 2 },
     pill: {
       margin: '10px 18px 0',
@@ -155,53 +156,56 @@ export default function StudentDashboard({ profile }: { profile: any }) {
       borderRadius: 20,
       fontSize: 11,
       color: C.gold,
-      fontWeight: 500,
+      fontWeight: 600,
+      letterSpacing: 0.3,
       display: 'inline-block',
     },
     nav: { padding: '10px 0', flex: 1 },
     navSection: {
       padding: '6px 18px 4px',
       fontSize: 10,
+      fontWeight: 600,
       color: C.hint,
       textTransform: 'uppercase' as any,
-      letterSpacing: 0.6,
+      letterSpacing: 1,
       marginTop: 6,
     },
     navItem: (active: boolean) => ({
-      padding: '7px 18px',
+      padding: '8px 18px',
       fontSize: 13,
       color: active ? C.gold : C.muted,
       cursor: 'pointer',
       borderLeft: active ? `2px solid ${C.gold}` : '2px solid transparent',
       background: active ? 'rgba(212,160,23,0.1)' : 'transparent',
-      fontWeight: active ? 500 : 400,
+      fontWeight: active ? 600 : 400,
     }),
-    signOut: { padding: '12px 18px', borderTop: `0.5px solid ${C.border}` },
+    signOut: { padding: '12px 18px', borderTop: `1px solid ${C.border}` },
     signOutBtn: {
       width: '100%',
-      padding: '6px',
-      border: `0.5px solid ${C.border}`,
+      padding: '8px',
+      border: `1px solid ${C.border}`,
       borderRadius: 8,
       fontSize: 12,
       cursor: 'pointer',
       background: 'transparent',
       color: C.muted,
     },
-    main: { flex: 1, overflowY: 'auto' as any, padding: 24 },
-    ph: { marginBottom: 18 },
-    pt: { fontSize: 17, fontWeight: 500, color: C.white },
-    ps: { fontSize: 12, color: C.muted, marginTop: 3 },
+    main: { flex: 1, overflowY: 'auto' as any, padding: isMobile ? 20 : 28 },
+    ph: { marginBottom: 20 },
+    pt: { fontSize: 20, fontWeight: 600, color: C.white, letterSpacing: '-0.2px' },
+    ps: { fontSize: 13, color: C.muted, marginTop: 4 },
     filterBar: {
       display: 'flex',
-      gap: 6,
-      marginBottom: 14,
+      gap: 8,
+      marginBottom: 16,
       flexWrap: 'wrap' as any,
     },
     chip: (active: boolean) => ({
-      padding: '5px 11px',
-      border: `0.5px solid ${active ? C.gold : C.border}`,
+      padding: '6px 12px',
+      border: `1px solid ${active ? C.gold : C.border}`,
       borderRadius: 20,
       fontSize: 12,
+      fontWeight: active ? 600 : 400,
       cursor: 'pointer',
       color: active ? C.bg : C.muted,
       background: active ? C.gold : 'transparent',
@@ -209,14 +213,15 @@ export default function StudentDashboard({ profile }: { profile: any }) {
     grid: {
       display: 'grid',
       gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))',
-      gap: 10,
+      gap: 12,
     },
     card: {
       background: C.card,
-      border: `0.5px solid ${C.border}`,
-      borderRadius: 12,
-      padding: 14,
+      border: `1px solid ${C.border}`,
+      borderRadius: 14,
+      padding: 16,
       cursor: 'pointer',
+      boxShadow: '0 2px 10px rgba(0,0,0,0.18)',
     },
     av: (bg: string, fg: string, size?: number) => ({
       width: size || 42,
@@ -226,45 +231,48 @@ export default function StudentDashboard({ profile }: { profile: any }) {
       alignItems: 'center',
       justifyContent: 'center',
       fontSize: 13,
-      fontWeight: 500,
+      fontWeight: 600,
       background: bg,
       color: fg,
       marginBottom: 10,
     }),
     tag: (bg: string, fg: string) => ({
       display: 'inline-block',
-      padding: '3px 8px',
+      padding: '3px 9px',
       borderRadius: 20,
       fontSize: 11,
-      fontWeight: 500,
+      fontWeight: 600,
+      letterSpacing: 0.2,
       background: bg,
       color: fg,
     }),
     reqRow: {
       background: C.card,
-      border: `0.5px solid ${C.border}`,
+      border: `1px solid ${C.border}`,
       borderRadius: 12,
-      padding: '12px 14px',
-      marginBottom: 8,
+      padding: '12px 16px',
+      marginBottom: 10,
       display: 'flex',
       alignItems: 'center',
-      gap: 10,
+      gap: 12,
+      boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
     },
     btn: (primary: boolean) => ({
-      padding: '7px 14px',
+      padding: '8px 16px',
       background: primary ? C.gold : 'transparent',
-      color: primary ? C.bg : C.muted,
-      border: primary ? 'none' : `0.5px solid ${C.border}`,
+      color: primary ? C.bg : 'rgba(255,255,255,0.75)',
+      border: primary ? 'none' : `1px solid ${C.border}`,
       borderRadius: 8,
       fontSize: 12,
       cursor: 'pointer',
-      fontWeight: primary ? 700 : 400,
+      fontWeight: primary ? 700 : 500,
     }),
     profileBox: {
       background: C.card,
-      border: `0.5px solid ${C.border}`,
-      borderRadius: 12,
-      padding: 20,
+      border: `1px solid ${C.border}`,
+      borderRadius: 14,
+      padding: 24,
+      boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
     },
     backBtn: {
       fontSize: 12,
@@ -286,11 +294,23 @@ export default function StudentDashboard({ profile }: { profile: any }) {
     },
     cohortCard: {
       background: C.card,
-      border: `0.5px solid ${C.border}`,
-      borderRadius: 12,
-      padding: 16,
-      marginBottom: 10,
+      border: `1px solid ${C.border}`,
+      borderRadius: 14,
+      padding: 18,
+      marginBottom: 12,
+      boxShadow: '0 2px 10px rgba(0,0,0,0.18)',
     },
+    empty: {
+      textAlign: 'center' as any,
+      padding: '40px 20px',
+      border: `1px dashed ${C.border}`,
+      borderRadius: 14,
+      background: 'rgba(255,255,255,0.02)',
+      marginTop: 8,
+    },
+    emptyIcon: { fontSize: 22, color: C.gold, marginBottom: 10 },
+    emptyTitle: { fontSize: 14, fontWeight: 600, color: C.white, marginBottom: 4 },
+    emptyHint: { fontSize: 12.5, color: C.muted, lineHeight: 1.6 },
   };
 
   const fieldColors: any = {
@@ -400,6 +420,7 @@ export default function StudentDashboard({ profile }: { profile: any }) {
               </div>
             )}
             <button
+              className="cc-btn-gold"
               style={{
                 ...s.btn(true),
                 width: '100%',
@@ -582,8 +603,13 @@ export default function StudentDashboard({ profile }: { profile: any }) {
                 );
               })}
               {filteredMentors.length === 0 && (
-                <div style={{ fontSize: 13, color: C.muted, marginTop: 20 }}>
-                  No mentors in this field yet.
+                <div style={{ ...s.empty, gridColumn: '1 / -1' }}>
+                  <div style={s.emptyIcon}>✦</div>
+                  <div style={s.emptyTitle}>No mentors in this field yet</div>
+                  <div style={s.emptyHint}>
+                    Try another field, or check back soon — new mentors join
+                    the Circle regularly.
+                  </div>
                 </div>
               )}
             </div>
@@ -675,8 +701,12 @@ export default function StudentDashboard({ profile }: { profile: any }) {
               );
             })}
             {cohorts.length === 0 && (
-              <div style={{ fontSize: 13, color: C.muted, marginTop: 20 }}>
-                No cohorts available yet.
+              <div style={s.empty}>
+                <div style={s.emptyIcon}>✦</div>
+                <div style={s.emptyTitle}>No cohorts available yet</div>
+                <div style={s.emptyHint}>
+                  Group cohorts will appear here once mentors open them up.
+                </div>
               </div>
             )}
           </>
@@ -689,15 +719,13 @@ export default function StudentDashboard({ profile }: { profile: any }) {
               <div style={s.ps}>Track your mentor match requests</div>
             </div>
             {matches.length === 0 && (
-              <div
-                style={{
-                  fontSize: 13,
-                  color: C.muted,
-                  marginTop: 20,
-                  textAlign: 'center',
-                }}
-              >
-                No requests yet — browse mentors to get started
+              <div style={s.empty}>
+                <div style={s.emptyIcon}>✦</div>
+                <div style={s.emptyTitle}>No requests yet</div>
+                <div style={s.emptyHint}>
+                  Browse mentors, read their stories, and send your first
+                  match request to get started.
+                </div>
               </div>
             )}
             {matches.map((m) => {
@@ -826,10 +854,12 @@ export default function StudentDashboard({ profile }: { profile: any }) {
               <>
                 <div
                   style={{
-                    fontSize: 13,
-                    fontWeight: 500,
-                    color: C.white,
-                    margin: '18px 0 10px',
+                    fontSize: 11,
+                    fontWeight: 600,
+                    color: C.hint,
+                    textTransform: 'uppercase' as any,
+                    letterSpacing: 1,
+                    margin: '22px 0 10px',
                   }}
                 >
                   Cohorts joined
@@ -895,6 +925,8 @@ function GoalForm({
     position: 'fixed',
     inset: 0,
     background: 'rgba(10,4,40,0.72)',
+    backdropFilter: 'blur(4px)',
+    WebkitBackdropFilter: 'blur(4px)',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -903,27 +935,29 @@ function GoalForm({
   };
   const modal: any = {
     background: C.card,
-    border: `0.5px solid ${C.border}`,
-    borderRadius: 14,
-    padding: 22,
+    border: `1px solid ${C.border}`,
+    borderRadius: 16,
+    padding: 24,
     width: '100%',
     maxWidth: 440,
     maxHeight: '90vh',
     overflowY: 'auto',
     fontFamily: 'sans-serif',
     boxSizing: 'border-box',
+    boxShadow: '0 24px 60px rgba(0,0,0,0.4)',
   };
   const label: any = {
     fontSize: 12,
-    color: C.muted,
+    fontWeight: 500,
+    color: 'rgba(255,255,255,0.7)',
     marginBottom: 6,
     display: 'block',
   };
   const input: any = {
     width: '100%',
-    padding: '10px 12px',
-    border: `0.5px solid ${C.border}`,
-    borderRadius: 8,
+    padding: '11px 12px',
+    border: `1px solid ${C.border}`,
+    borderRadius: 10,
     fontSize: 13,
     boxSizing: 'border-box',
     background: '#1E0A5C',
@@ -935,12 +969,12 @@ function GoalForm({
   const field: any = { marginBottom: 16 };
   const optRow: any = { display: 'flex', gap: 8, flexWrap: 'wrap' };
   const opt = (active: boolean): any => ({
-    padding: '8px 12px',
+    padding: '8px 13px',
     borderRadius: 8,
     fontSize: 12,
     cursor: 'pointer',
-    fontWeight: active ? 700 : 400,
-    border: `0.5px solid ${active ? C.gold : C.border}`,
+    fontWeight: active ? 700 : 500,
+    border: `1px solid ${active ? C.gold : C.border}`,
     background: active ? C.gold : 'transparent',
     color: active ? C.bg : C.muted,
   });
@@ -958,6 +992,7 @@ function GoalForm({
         <div style={field}>
           <label style={label}>What field are you interested in?</label>
           <input
+            className="cc-input"
             style={input}
             value={goalField}
             onChange={(e) => setGoalField(e.target.value)}
@@ -968,6 +1003,7 @@ function GoalForm({
         <div style={field}>
           <label style={label}>What do you need help with?</label>
           <textarea
+            className="cc-input"
             style={textarea}
             value={goalHelp}
             onChange={(e) => setGoalHelp(e.target.value)}
@@ -983,6 +1019,7 @@ function GoalForm({
             {['Long-term mentorship', 'One-time advice'].map((o) => (
               <div
                 key={o}
+                className="cc-chip"
                 style={opt(goalType === o)}
                 onClick={() => setGoalType(o)}
               >
@@ -998,6 +1035,7 @@ function GoalForm({
             {['High school', 'College', 'Recent grad'].map((o) => (
               <div
                 key={o}
+                className="cc-chip"
                 style={opt(goalStage === o)}
                 onClick={() => setGoalStage(o)}
               >
@@ -1013,10 +1051,11 @@ function GoalForm({
               flex: 1,
               padding: 10,
               background: 'transparent',
-              color: C.muted,
-              border: `0.5px solid ${C.border}`,
+              color: 'rgba(255,255,255,0.75)',
+              border: `1px solid ${C.border}`,
               borderRadius: 8,
               fontSize: 13,
+              fontWeight: 500,
               cursor: 'pointer',
               fontFamily: 'sans-serif',
             }}
@@ -1026,6 +1065,7 @@ function GoalForm({
             Cancel
           </button>
           <button
+            className="cc-btn-gold"
             style={{
               flex: 2,
               padding: 10,
