@@ -9,6 +9,8 @@ export default function Auth() {
   const [fullName, setFullName] = useState('')
   const [role, setRole] = useState('student')
   const [isSignUp, setIsSignUp] = useState(false)
+  const [forgotPassword, setForgotPassword] = useState(false)
+  const [resetSent, setResetSent] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -62,6 +64,30 @@ export default function Auth() {
     setLoading(false)
   }
 
+  async function handleResetRequest() {
+    if (loading) return
+    setError('')
+    if (!email.trim()) {
+      setError('Please enter your email address.')
+      return
+    }
+    setLoading(true)
+    // The result is deliberately ignored: showing the same confirmation whether
+    // or not the email has an account keeps the form from leaking which
+    // addresses are registered.
+    await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/reset-password`,
+    })
+    setLoading(false)
+    setResetSent(true)
+  }
+
+  function toggleForgotPassword(show: boolean) {
+    setForgotPassword(show)
+    setResetSent(false)
+    setError('')
+  }
+
   // Submit on Enter from any of the form fields.
   function onKeyDown(e: KeyboardEvent) {
     if (e.key === 'Enter') handleAuth()
@@ -88,6 +114,24 @@ export default function Auth() {
     color: 'white',
     fontFamily: 'sans-serif',
     outline: 'none',
+  }
+  const goldBtn: any = {
+    width: '100%',
+    padding: '13px',
+    background: 'linear-gradient(135deg,#F0C040,#D4A017)',
+    color: '#1E0A5C',
+    border: 'none',
+    borderRadius: 10,
+    fontSize: 14,
+    fontWeight: 700,
+    cursor: loading ? 'wait' : 'pointer',
+    fontFamily: 'sans-serif',
+    letterSpacing: .4,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    opacity: loading ? 0.8 : 1,
   }
 
   return (
@@ -178,6 +222,57 @@ export default function Auth() {
           boxShadow:'inset 0 1px 0 rgba(255,255,255,0.06), 0 24px 60px rgba(0,0,0,0.35), 0 0 48px rgba(212,160,23,0.07)',
           boxSizing:'border-box' as any,
         }}>
+          {forgotPassword ? (
+          <div key="forgot" className="cc-swap">
+            <div style={{fontSize:22,fontWeight:600,color:'white',marginBottom:6,fontFamily:'sans-serif',letterSpacing:'-0.2px'}}>
+              Reset your password
+            </div>
+            <div style={{fontSize:13,color:'rgba(255,255,255,0.45)',marginBottom:26,fontFamily:'sans-serif'}}>
+              {resetSent ? 'Your reset link is on its way' : "Enter your email and we'll send you a reset link"}
+            </div>
+
+            {error && (
+              <div style={{fontSize:12,color:'#ff8a8a',marginBottom:16,background:'rgba(255,100,100,0.1)',border:'1px solid rgba(255,100,100,0.25)',padding:'10px 12px',borderRadius:10,fontFamily:'sans-serif',lineHeight:1.5}}>
+                {error}
+              </div>
+            )}
+
+            {resetSent ? (
+              <div style={{fontSize:13,color:'#F0C040',background:'rgba(212,160,23,0.1)',border:'1px solid rgba(212,160,23,0.3)',padding:'12px 14px',borderRadius:10,fontFamily:'sans-serif',lineHeight:1.6}}>
+                Check your email for a reset link. If it doesn't arrive within a few minutes, look in your spam folder.
+              </div>
+            ) : (
+              <>
+                <div style={label}>Email</div>
+                <input
+                  className="cc-input"
+                  style={{...input,marginBottom:24}}
+                  type="email"
+                  value={email}
+                  onChange={e=>setEmail(e.target.value)}
+                  onKeyDown={e=>{ if (e.key === 'Enter') handleResetRequest() }}
+                  placeholder="you@email.com"
+                />
+
+                <button
+                  className="cc-btn-gold"
+                  style={goldBtn}
+                  onClick={handleResetRequest}
+                  disabled={loading}
+                >
+                  {loading && <span className="cc-spinner cc-spinner-sm" style={{borderColor:'rgba(30,10,92,0.25)',borderTopColor:'#1E0A5C'}}></span>}
+                  {loading ? 'Please wait...' : 'Send reset link'}
+                </button>
+              </>
+            )}
+
+            <div style={{textAlign:'center',marginTop:22,fontSize:13,color:'rgba(255,255,255,0.45)',fontFamily:'sans-serif'}}>
+              <span className="cc-chip" style={{display:'inline-block',color:'#F0C040',cursor:'pointer',fontWeight:600,borderBottom:'1px solid rgba(240,192,64,0.4)',paddingBottom:1}} onClick={()=>toggleForgotPassword(false)}>
+                Back to sign in
+              </span>
+            </div>
+          </div>
+          ) : (
           <div key={isSignUp ? 'signup' : 'signin'} className="cc-swap">
             <div style={{fontSize:22,fontWeight:600,color:'white',marginBottom:6,fontFamily:'sans-serif',letterSpacing:'-0.2px'}}>
               {isSignUp ? 'Create your account' : 'Welcome back'}
@@ -240,24 +335,7 @@ export default function Auth() {
 
             <button
               className="cc-btn-gold"
-              style={{
-                width:'100%',
-                padding:'13px',
-                background:'linear-gradient(135deg,#F0C040,#D4A017)',
-                color:'#1E0A5C',
-                border:'none',
-                borderRadius:10,
-                fontSize:14,
-                fontWeight:700,
-                cursor: loading ? 'wait' : 'pointer',
-                fontFamily:'sans-serif',
-                letterSpacing:.4,
-                display:'flex',
-                alignItems:'center',
-                justifyContent:'center',
-                gap:8,
-                opacity: loading ? 0.8 : 1,
-              }}
+              style={goldBtn}
               onClick={handleAuth}
               disabled={loading}
             >
@@ -265,13 +343,22 @@ export default function Auth() {
               {loading ? 'Please wait...' : isSignUp ? 'Join the Circle' : 'Sign in'}
             </button>
 
-            <div style={{textAlign:'center',marginTop:22,fontSize:13,color:'rgba(255,255,255,0.45)',fontFamily:'sans-serif'}}>
+            {!isSignUp && (
+              <div style={{textAlign:'center',marginTop:16,fontSize:13,fontFamily:'sans-serif'}}>
+                <span className="cc-chip" style={{display:'inline-block',color:'rgba(255,255,255,0.55)',cursor:'pointer',borderBottom:'1px solid rgba(255,255,255,0.25)',paddingBottom:1}} onClick={()=>toggleForgotPassword(true)}>
+                  Forgot password?
+                </span>
+              </div>
+            )}
+
+            <div style={{textAlign:'center',marginTop:isSignUp?22:14,fontSize:13,color:'rgba(255,255,255,0.45)',fontFamily:'sans-serif'}}>
               {isSignUp ? 'Already have an account? ' : "Don't have an account? "}
               <span className="cc-chip" style={{display:'inline-block',color:'#F0C040',cursor:'pointer',fontWeight:600,borderBottom:'1px solid rgba(240,192,64,0.4)',paddingBottom:1}} onClick={()=>setIsSignUp(!isSignUp)}>
                 {isSignUp ? 'Sign in' : 'Sign up'}
               </span>
             </div>
           </div>
+          )}
         </div>
       </div>
     </div>

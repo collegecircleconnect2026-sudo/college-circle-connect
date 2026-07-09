@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { supabase } from './supabase'
 import Auth from './components/Auth'
+import ResetPassword from './components/ResetPassword'
 import StudentDashboard from './components/StudentDashboard'
 import MentorDashboard from './components/MentorDashboard'
 import ChurchAdminDashboard from './components/ChurchAdminDashboard'
@@ -10,6 +11,7 @@ function App() {
   const [userProfile, setUserProfile] = useState<any>(null)
   const [profileError, setProfileError] = useState('')
   const [loading, setLoading] = useState(true)
+  const [recovering, setRecovering] = useState(false)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -18,7 +20,11 @@ function App() {
       else setLoading(false)
     })
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      // Supabase fires PASSWORD_RECOVERY when the app is opened from a reset
+      // link. Flag it so we show the reset-password form instead of the
+      // dashboards until the user has chosen a new password.
+      if (event === 'PASSWORD_RECOVERY') setRecovering(true)
       setSession(session)
       if (session) fetchProfile(session.user.id)
       else { setUserProfile(null); setProfileError(''); setLoading(false) }
@@ -50,6 +56,18 @@ function App() {
   )
 
   if (loading) return loadingScreen('Loading your Circle...')
+
+  if (recovering && session) {
+    return (
+      <ResetPassword
+        onComplete={() => {
+          setRecovering(false)
+          // Drop the /reset-password path so a reload lands on the normal app.
+          window.history.replaceState(null, '', '/')
+        }}
+      />
+    )
+  }
 
   if (!session) return <Auth />
 
